@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styles from './App.scss'
 import * as api from '../utils/api'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 class App extends Component {
 
