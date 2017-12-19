@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styles from './App.scss'
 import * as api from '../utils/api'
 import { Switch, Route } from 'react-router-dom'
+import { postCreator, postDeleter } from '../actions'
 
 class App extends Component {
 
   state = {
     categories: [],
-    posts: []
+    posts: [],
+    postComments: []
   }
 
   componentDidMount () {
@@ -17,6 +20,10 @@ class App extends Component {
 
     api.getCategories().then(categories => {
       this.setState({ categories })
+    })
+
+    api.getPostComments('8xf0y6ziyjabvozdd253nd').then(postComments => {
+      this.setState({ postComments })
     })
   }
 
@@ -39,4 +46,19 @@ class App extends Component {
   }
 }
 
-export default App
+function mapStateToProps ({ posts }) {
+  return {
+    posts: posts
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    newPost: (data) => dispatch(postCreator(data)),
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
