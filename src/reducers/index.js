@@ -1,7 +1,8 @@
 import {
     CREATE_POST,
     DELETE_POST,
-    GET_ALL_POSTS
+    GET_ALL_POSTS,
+    GET_ALL_CATEGORIES
 } from '../actions'
 
 const initialState = {
@@ -18,6 +19,11 @@ function initialPosts (state = initialState, action) {
             return {
                 ...state,
                 posts: action.posts
+            }
+        case GET_ALL_CATEGORIES:
+            return {
+                ...state,
+                categories: action.categories
             }
         case CREATE_POST:
             return {
