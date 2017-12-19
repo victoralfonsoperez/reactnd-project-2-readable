@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import './App.css'
-import * as api from './utils/api'
+import styles from './App.scss'
+import * as api from '../utils/api'
 
 class App extends Component {
 
@@ -16,14 +16,14 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.app}>
         {
           this.state.posts.map(post => (
             <div key={ post.id}>
               <h2>{ post.title }</h2>
             </div>
           ))
-          }
+        }
       </div>
     );
   }
