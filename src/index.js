@@ -11,13 +11,11 @@ import registerServiceWorker from './registerServiceWorker'
 
 const store = createStore(
     reducer,
-    devToolsEnhancer(
-        // options like actionSanitizer, stateSanitizer
-    )
+    devToolsEnhancer()
 )
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={ store }>
         <BrowserRouter><App /></BrowserRouter>
     </Provider>,
     document.getElementById('root'));

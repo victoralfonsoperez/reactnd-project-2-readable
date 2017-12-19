@@ -1,61 +1,36 @@
 import {
     CREATE_POST,
     DELETE_POST,
-    CREATE_COMMENT
+    GET_ALL_POSTS
 } from '../actions'
 
 const initialState = {
-    categories: [
-        {
-            name: null,
-            path: null
-        }
-    ],
-    posts: [
-        {
-            author: null,
-            body: null,
-            category: null,
-            commentCount: null,
-            deleted: null,
-            id: null,
-            timestamp: null,
-            title: null,
-            voteScore: null
-        }
-    ],
-    postComments: [
-        {
-            author: null,
-            body: null,
-            deleted: null,
-            id: null,
-            parentDeleted: null,
-            parentId: null,
-            timestamp: null,
-            voteScore: null
-        }
-    ]
+    categories: [],
+    posts: [],
+    postComments: []
 }
 
-function reducer (state = initialState, action) {
-    const { id, title, body, author, category, deleted, voteScore, commentCount, timestamp } = action
+function initialPosts (state = initialState, action) {
+    const { id } = action
 
     switch (action.type) {
+        case GET_ALL_POSTS:
+            return {
+                ...state,
+                posts: action.posts
+            }
         case CREATE_POST:
             return {
                 ...state,
                 [id]: {
-                    ...state[id],
-                    [category]: category
+                    ...state[id]
                 }
             }
         case DELETE_POST:
             return {
                 ...state,
                 [id]: {
-                    ...state[id],
-                    [category]: category
+                    ...state[id]
                 }
             }
         default:
@@ -63,4 +38,4 @@ function reducer (state = initialState, action) {
     }
   }
 
-export default reducer
+export default initialPosts
