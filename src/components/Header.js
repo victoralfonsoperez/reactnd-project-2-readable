@@ -8,13 +8,14 @@ class Header extends Component {
 
         return (
             <div className={ styles.header }>
+                <NavLink exact={ true } to="/" activeClassName={ styles.acti }>Home</NavLink>
                 {
                     categories && categories.map(cat => (
                         <NavLink
                             key={ cat.name }
                             exact={ true }
                             to={ `/${cat.path}` }
-                            activeClassName={ styles.acti }>
+                            activeClassName={ styles.active }>
                             { cat.path }
                         </NavLink>
                     ))

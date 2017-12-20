@@ -5,14 +5,8 @@ import {
     GET_ALL_CATEGORIES
 } from '../actions'
 
-const initialState = {
-    categories: [],
-    posts: [],
-    postComments: []
-}
-
-function initialPosts (state = initialState, action) {
-    const { id } = action
+function initialPosts (state = {}, action) {
+    const { id, posts, categories } = action
 
     switch (action.type) {
         case GET_ALL_POSTS:
