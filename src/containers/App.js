@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 //import styles from './App.scss'
 import * as api from '../utils/api'
-import { Switch, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { postCreator, postDeleter, getAllPosts, getAllCategories } from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
@@ -10,7 +10,8 @@ import Posts from '../components/Posts'
 class App extends Component {
   state = {
     categories: [],
-    posts: []
+    posts: [],
+    currentCategory: ''
   }
 
   componentDidMount () {
@@ -23,23 +24,20 @@ class App extends Component {
   render() {
     return (
       <div>
-          <Route path="/" render={() => (
-            <Header categories={ this.props.appState.categories }></Header>
-          )}/>
-          
+          <Route path="/" component={Header}/>
           <Route path="/" component={Posts}/>
       </div>
     )
   }
 }
 
-function mapStateToProps (appState) {
+const mapStateToProps = appState => {
   return {
     appState
   }
 }
 
-function mapDispatchToProps (dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
     getPosts: (data) => dispatch(getAllPosts(data)),
     getCategories: (data) => dispatch(getAllCategories(data)),

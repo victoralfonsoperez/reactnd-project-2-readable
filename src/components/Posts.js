@@ -1,41 +1,42 @@
 import React, { Component } from 'react'
 import styles from './Posts.scss'
-import * as api from '../utils/api'
 import { connect } from 'react-redux'
+import Post from './Post'
 
 class Posts extends Component {
     state = {
-        filteredPosts: []
+        posts: [],
+        categories: [],
+        currentCategory: ''
     }
 
-    componentDidMount () {debugger
-        //sets a filtered lists of posts by category each time the page reloads
-        let currentLocation = this.props.location.pathname.replace(/^\/+/g, '')
-        api.getCategoryPosts(currentLocation).then(filteredPosts => this.setState({ filteredPosts: filteredPosts })).catch(err => {
-            console.log({ err: err }, 'Unexpected Error')
-            throw err // Make sure cb gets the error
-          })
+    componentDidMount() {
+        //sets the currentCategory state when the page is reloaded
+        this.setState({ currentCategory: this.props.location.pathname.replace(/^\/+/g, '') })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        //sets the posts and categories state when the component receives props
+        this.setState({ posts: nextProps.posts })
+        this.setState({ categories: nextProps.categories })
     }
 
     render () {
-        //filters the current appState lists of posts each time the route changes, showing just the ones that matches
-        //avoiding extra request to the api server
-        this.props.history.listen((location, action) => {
-            const currentLocation = location.pathname.replace(/^\/+/g, '')
-            let filteredPosts = this.props.posts && this.props.posts.filter(post => post.category === currentLocation)
-            this.setState({ filteredPosts: filteredPosts })
+        this.props.history.listen(location => {
+            //updates the currentCategory state each time the route gets updated
+            this.setState({ currentCategory: location.pathname.replace(/^\/+/g, '') })
         })
 
         return (
             <div className={ styles.postscontainer }>
                 {
-                    this.state.filteredPosts && this.props.location.pathname.replace(/^\/+/g, '') !== "" && this.state.filteredPosts.map(post => (
-                        <div key={ post.id }>{ post.title }</div>
+                    this.state.currentCategory !== "" && this.state.posts && this.state.posts.filter(post => post.category === this.state.currentCategory).map(post => (
+                        <Post key={ post.id } post={ post }></Post>
                     ))
                 }
                 {
-                    this.props.posts && this.props.location.pathname.replace(/^\/+/g, '') === "" && this.props.posts.map(post => (
-                        <div key={ post.id }>{ post.title }</div>
+                    this.state.currentCategory === "" && this.state.posts && this.state.posts.map(post => (
+                        <Post key={ post.id } post={ post }></Post>
                     ))
                 }
             </div>
@@ -43,9 +44,10 @@ class Posts extends Component {
     }
 }
 
-const mapStateToProps = (appState) => {
+const mapStateToProps = appState => {
     return {
-      posts: appState.posts
+      posts: appState.posts,
+      categories: appState.categories
     }
 }
 

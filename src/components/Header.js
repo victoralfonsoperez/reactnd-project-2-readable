@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styles from './Header.scss'
 import { NavLink } from 'react-router-dom'
 
 class Header extends Component {
+    state = {}
+
+    componentWillReceiveProps(nextProps) {
+        //sets the categories state when the component receives props
+        this.setState({ categories: nextProps.categories })
+    }
+
     render () {
-        const { categories } = this.props
+        const { categories } = this.state
 
         return (
             <div className={ styles.header }>
@@ -25,4 +33,11 @@ class Header extends Component {
     }
 }
 
-export default Header
+const mapStateToProps = appState => {
+    return {
+      categories: appState.categories
+    }
+}
+
+export default connect( mapStateToProps )(Header)
+
