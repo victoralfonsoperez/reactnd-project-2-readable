@@ -10,7 +10,7 @@ class Post extends Component {
 
     return (
         <div className="post">
-          <h2>{ post.title }</h2>
+          <NavLink to={ post.id }>{ post.title }</NavLink>
           <div className="post-vote">
             votes: <span className="post-vote-score">{ post.voteScore }</span>
           </div>

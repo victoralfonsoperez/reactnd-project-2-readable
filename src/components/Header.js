@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styles from './Header.scss'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 
 class Header extends Component {
     state = {}
@@ -15,20 +15,21 @@ class Header extends Component {
         const { categories } = this.state
 
         return (
-            <div className={ styles.header }>
-                <NavLink exact={ true } to="/" activeClassName={ styles.acti }>Home</NavLink>
+            <nav className={ styles.header }>
+                <NavLink exact={ true } to="/" activeStyle={{ color: 'red' }}>Home</NavLink>
                 {
                     categories && categories.map(cat => (
                         <NavLink
                             key={ cat.name }
                             exact={ true }
                             to={ `/${cat.path}` }
-                            activeClassName={ styles.active }>
+                            activeStyle={{ color: 'red' }}>
                             { cat.path }
                         </NavLink>
                     ))
                 }
-            </div>
+                <NavLink exact={ true } to="/create" activeStyle={{ color: 'red' }}>Create Post</NavLink>
+            </nav>
         )
     }
 }
@@ -39,5 +40,5 @@ const mapStateToProps = appState => (
     }
 )
 
-export default connect( mapStateToProps )(Header)
+export default withRouter(connect( mapStateToProps )(Header))
 

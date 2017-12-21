@@ -5,9 +5,7 @@ import uuidv1 from 'uuid/v1'
 import styles from './CreatePost.scss'
 
 class CreatePost extends Component {
-	state = {
-		visible: false
-    }
+	state = {}
     
     componentDidMount() {
         //sets the currentCategory state when the page is reloaded
@@ -18,10 +16,6 @@ class CreatePost extends Component {
         //sets the categories state when the component receives props
         this.setState({ categories: nextProps.categories })
     }
-
-	toggleMenu = value => {
-		this.setState({ visible: value })
-	}
 
 	submitData = (e) => {
 		e.preventDefault()
@@ -42,20 +36,9 @@ class CreatePost extends Component {
         const { categories } = this.state
 
         return (
-            <div className="create-posts">
-            	{
-					!this.state.visible &&
-					<button onClick={() => this.toggleMenu(true)}>Create New Post</button>
-				}
-
+            <div className={styles.createpost}>
 				{
-					this.state.visible &&
-					<button onClick={() => this.toggleMenu(false)}>Cancel</button>
-				}
-				
-				{
-					this.state.visible && 
-					<form onSubmit={this.submitData} className="create-post-form">
+					<form onSubmit={this.submitData} className={styles.createpost_form}>
 						<input
 							type="text"
 							placeholder="Post Title"
@@ -70,29 +53,17 @@ class CreatePost extends Component {
 							required
 						/>
 
-                        {
-                            this.state.currentCategory !== "" && <div>
-                                <input className="hidden" type="text" readOnly name="category" value={ this.state.currentCategory }></input>
-						        <input className="hidden" type="number" readOnly name="timestamp" value={Date.now()}></input>
-						        <input className="hidden" type="text" readOnly name="id" value={uuidv1()}></input>
-                            </div>
-                        }
-
-                        {
-                            this.state.currentCategory === "" && <div>
-                                Please select a Category for your post
-                                {
-                                    categories && categories.map(category => (
-                                        <span key={ category.name }>
-                                            <input required type="radio" id={ category.name } name="category" value={ category.name }/>
-                                            <label htmlFor={ category.name }>{ category.name }</label>
-                                        </span>
-                                    ))
-                                }
-                                <input className="hidden" type="number" readOnly name="timestamp" value={Date.now()}></input>
-						        <input className="hidden" type="text" readOnly name="id" value={uuidv1()}></input>
-                            </div>
-                        }
+						Please select a Category for your post
+						{
+							categories && categories.map(category => (
+								<span key={ category.name }>
+									<input required type="radio" id={ category.name } name="category" value={ category.name }/>
+									<label htmlFor={ category.name }>{ category.name }</label>
+								</span>
+							))
+						}
+						<input className={styles.hidden} type="number" readOnly name="timestamp" value={Date.now()}></input>
+						<input className={styles.hidden} type="text" readOnly name="id" value={uuidv1()}></input>
 
 						<textarea
 							name="body"

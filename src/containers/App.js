@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 //import styles from './App.scss'
 import * as api from '../utils/api'
-import { Route } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import { postCreator, postDeleter, getAllPosts, getAllCategories } from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
@@ -24,10 +24,10 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-          <Route path="/" component={Header}/>
-          <Route path="/" component={Posts}/>
-          <Route path="/" component={CreatePost}/>
+      <div className="app">
+        <Route component={Header}/>
+        <Route path="/" component={Posts}/>
+        <Route exact path="/create" component={CreatePost}/>
       </div>
     )
   }
@@ -48,4 +48,4 @@ const mapDispatchToProps = dispatch => (
   }
 )
 
-export default connect( mapStateToProps, mapDispatchToProps )(App)
+export default withRouter(connect( mapStateToProps, mapDispatchToProps )(App))
