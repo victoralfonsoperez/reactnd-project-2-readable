@@ -44,11 +44,11 @@ class Posts extends Component {
     }
 }
 
-const mapStateToProps = appState => {
-    return {
+const mapStateToProps = appState => (
+    {
       posts: appState.posts,
       categories: appState.categories
     }
-}
+)
 
 export default connect( mapStateToProps )(Posts)

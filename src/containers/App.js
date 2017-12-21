@@ -6,6 +6,7 @@ import { Route } from 'react-router-dom'
 import { postCreator, postDeleter, getAllPosts, getAllCategories } from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
+import CreatePost from '../components/CreatePost'
 
 class App extends Component {
   state = {
@@ -26,24 +27,25 @@ class App extends Component {
       <div>
           <Route path="/" component={Header}/>
           <Route path="/" component={Posts}/>
+          <Route path="/" component={CreatePost}/>
       </div>
     )
   }
 }
 
-const mapStateToProps = appState => {
-  return {
+const mapStateToProps = appState => (
+  {
     appState
   }
-}
+)
 
-const mapDispatchToProps = dispatch => {
-  return {
+const mapDispatchToProps = dispatch => (
+  {
     getPosts: (data) => dispatch(getAllPosts(data)),
     getCategories: (data) => dispatch(getAllCategories(data)),
     createNewPost: (data) => dispatch(postCreator(data)),
     deleteOldPost: (data) => dispatch(postDeleter(data))
   }
-}
+)
 
 export default connect( mapStateToProps, mapDispatchToProps )(App)

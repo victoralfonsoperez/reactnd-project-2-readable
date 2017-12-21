@@ -12,12 +12,12 @@ function initialPosts (state = {}, action) {
         case GET_ALL_POSTS:
             return {
                 ...state,
-                posts: action.posts
+                posts
             }
         case GET_ALL_CATEGORIES:
             return {
                 ...state,
-                categories: action.categories
+                categories
             }
         case CREATE_POST:
             return {

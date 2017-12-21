@@ -30,7 +30,6 @@ export const postCreator = id => (
 )
 
 //action creator to create an action to delete a post
-
 export const postDeleter = id => (
     {
         type: DELETE_POST,

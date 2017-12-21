@@ -33,11 +33,11 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = appState => {
-    return {
+const mapStateToProps = appState => (
+    {
       categories: appState.categories
     }
-}
+)
 
 export default connect( mapStateToProps )(Header)
 
