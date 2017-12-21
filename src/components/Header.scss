@@ -1,16 +1,22 @@
+@import 'scss/variables';
+
 .header {
     align-items: center;
     display: flex;
     justify-content: space-between;
     padding: 1em;
+    text-transform: uppercase;
+
+    a {
+        text-decoration: none;
+    }
 }
 
 .headeritem {
-    color: red;
     display: inline-block
 }
 
 .active {
-    color: purple;
-    border: solid 1px red;
+    color: $green;
+    font-weight: bold;
 }

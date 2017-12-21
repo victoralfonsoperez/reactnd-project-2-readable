@@ -16,19 +16,19 @@ class Header extends Component {
 
         return (
             <nav className={ styles.header }>
-                <NavLink exact={ true } to="/" activeStyle={{ color: 'red' }}>Home</NavLink>
+                <NavLink exact={ true } to="/" activeClassName={styles.active}>Home</NavLink>
                 {
                     categories && categories.map(cat => (
                         <NavLink
                             key={ cat.name }
                             exact={ true }
                             to={ `/${cat.path}` }
-                            activeStyle={{ color: 'red' }}>
+                            activeClassName={styles.active}>
                             { cat.path }
                         </NavLink>
                     ))
                 }
-                <NavLink exact={ true } to="/create" activeStyle={{ color: 'red' }}>Create Post</NavLink>
+                <NavLink exact={ true } to="/create" activeClassName={styles.active}>Create Post</NavLink>
             </nav>
         )
     }

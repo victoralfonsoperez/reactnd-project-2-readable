@@ -39,6 +39,9 @@ class Posts extends Component {
                         <Post key={ post.id } post={ post }></Post>
                     ))
                 }
+                {
+                    this.state.posts && this.state.currentCategory !== "" && this.state.posts && this.state.currentCategory !== "create" && this.state.posts.filter(post => post.category === this.state.currentCategory).length === 0 && <span>There are no posts yet</span>
+                }
             </div>
         )
     }

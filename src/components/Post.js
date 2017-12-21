@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as FontAwesome from 'react-icons/lib/fa'
+import styles from './Post.scss'
 import { NavLink } from 'react-router-dom'
 
 class Post extends Component {
@@ -9,25 +10,31 @@ class Post extends Component {
         const { post } = this.props
 
     return (
-        <div className="post">
-          <NavLink to={ post.id }>{ post.title }</NavLink>
-          <div className="post-vote">
-            votes: <span className="post-vote-score">{ post.voteScore }</span>
+        <div className={styles.post}>
+          <div className={styles.posthead}>
+            <NavLink className={styles.posttitle} to={ post.id }>{ post.title }</NavLink>
+            <div className={styles.postvote}>
+              <FontAwesome.FaHeart/> <span className={styles.postvotescore}>{ post.voteScore }</span>
+            </div>
           </div>
-
-          <div className="post-body">
+          <div className={styles.postbody}>
             <p>
               { post.body }
             </p>
           </div>
 
-          <div className="post-author">
-            <FontAwesome.FaUser/>
-            <span className="post-author-name">{ post.author }</span>
-          </div>
+          <div className={styles.postfooter}>
+            <div className={styles.postauthor}>
+              <figure className={styles.postauthorpicture}>
+                <img src="https://randomuser.me/api/portraits/lego/1.jpg" alt={post.author}/>
+                <figcaption className={styles.postauthorfigcaption}>{post.author}</figcaption>
+              </figure>
+              <figcaption></figcaption>
+            </div>
 
-          <div className="post-date"><FontAwesome.FaCalendarO />
-            <span className="post-date-value">{ new Date(post.timestamp).toLocaleString() }</span>
+            <div className={styles.postdate}><FontAwesome.FaCalendarO />
+              <span className={styles.postdatevalue}>{ new Date(post.timestamp).toLocaleString() }</span>
+            </div>
           </div>
   
           <div className="post-comment-count"><FontAwesome.FaCommentsO />
@@ -36,7 +43,7 @@ class Post extends Component {
   
           <div className="post-actions">
             <button><FontAwesome.FaEdit/></button>
-            <button onClick={() => this.deletePost(post.id)} className="delete-button">
+            <button className="delete-button">
               <FontAwesome.FaTrashO/>
             </button>
 

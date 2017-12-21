@@ -53,7 +53,7 @@ class CreatePost extends Component {
 							required
 						/>
 
-						Please select a Category for your post
+						<label>Please select a Category</label>
 						{
 							categories && categories.map(category => (
 								<span key={ category.name }>

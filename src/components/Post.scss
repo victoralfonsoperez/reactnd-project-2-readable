@@ -1,0 +1,93 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.post {
+    border: solid 1px rgba(lighten($blue, 10%), 0.2);
+    border-radius: 5px;
+    box-shadow: 3px 3px 10px 0px rgba(lighten($black, 10%), 0.25);
+    padding: #{$padding}px;
+    margin: #{$margin}px #{$margin / 2}px;
+    flex-basis: 100%;
+
+    @include tablet {
+        flex-basis: 30%;
+    }
+
+    @include desktop {
+        flex-basis: 25%;
+    }
+}
+
+.posthead {
+    display: flex;
+    flex-basis: 100%;
+    flex-wrap: nowrap;
+}
+
+.posttitle{
+    flex-basis: 90%;
+    flex-shrink: 2;
+}
+
+.postvote {
+    display: flex;
+    color: $red;
+    flex-basis: 10%;
+    flex-grow: 2;
+    font-size: 12px;
+    justify-content: flex-end;
+    padding-left: 10px;
+}
+
+.postvotescore {
+    color: $black;
+    margin-left: 4px;
+}
+
+.postbody {
+    color: lighten($black, 5%);
+    flex-basis: 100%;
+    font-weight: lighter;
+
+    p {
+        @include truncateAfterLines(1.5);
+    }
+}
+
+.postfooter {
+    align-items: center;
+    display: flex;
+    font-size: 10px;
+    margin: 1em 0;
+    justify-content: space-between;
+}
+
+.postauthor {
+    display: inline-block;
+    width: 42px;
+}
+
+.postauthorpicture, .postauthorpicture img {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.postauthorpicture {
+    border: solid 1px lighten($green, 5%);
+    margin: 0;
+}
+
+.postauthorfigcaption {
+    visibility: hidden;
+}
+
+.postdate {
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: calc(100% - 42px);
+}
+
+.postdatevalue {
+    margin-left: 4px;
+}
