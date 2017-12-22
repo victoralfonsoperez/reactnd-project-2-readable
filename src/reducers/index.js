@@ -29,9 +29,9 @@ function initialPosts (state = {}, action) {
         case DELETE_POST:
             return {
                 ...state,
-                [id]: {
-                    ...state[id]
-                }
+                posts: [
+                    ...state.posts.filter(post => post.id !== id)
+                ]
             }
         default:
             return state

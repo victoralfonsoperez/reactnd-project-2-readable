@@ -56,7 +56,7 @@ class CreatePost extends Component {
 						<input className={styles.hidden} type="number" readOnly name="timestamp" value={Date.now()}></input>
 						<input
 							type="text"
-							placeholder="Post Title"
+							placeholder="Post title"
 							name="title"
 							required
 						/>
@@ -70,20 +70,22 @@ class CreatePost extends Component {
 						</textarea>
 						<input
 							type="text"
-							placeholder="author"
+							placeholder="Post author"
 							name="author"
 							required
 						/>
-						<label>Please select a Category</label>
+						<label className={styles.selectcategory}>Please select a Category</label>
+						<div className={styles.availablecategories}>
 						{
 							this.props.categories && this.props.categories.map(category => (
-								<span key={ category.name }>
+								<span className={styles.category} key={ category.name }>
 									<input selected required type="radio" id={ category.name } name="category" value={ category.name }/>
 									<label htmlFor={ category.name }>{ category.name }</label>
 								</span>
 							))
 						}
-						<button>Submit</button>
+						</div>
+						<button className={styles.submitpost}>Submit</button>
 					</form>
 				}
 				{
