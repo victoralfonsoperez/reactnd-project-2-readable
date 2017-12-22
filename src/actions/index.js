@@ -22,10 +22,10 @@ export const getAllPosts = posts => (
 )
 
 //action creator to create an action to create a post
-export const postCreator = id => (
+export const postCreator = post => (
     {
         type: CREATE_POST,
-        id
+        post
     }
 )
 

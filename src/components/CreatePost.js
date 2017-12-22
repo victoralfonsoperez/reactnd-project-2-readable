@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import serializeForm from 'form-serialize'
 import uuidv1 from 'uuid/v1'
+import * as api from '../utils/api'
 import styles from './CreatePost.scss'
+import { postCreator } from '../actions'
+import { Redirect } from 'react-router'
 
 class CreatePost extends Component {
-	state = {}
+	state = {
+		redirectToHome: false
+	}
     
     componentDidMount() {
         //sets the currentCategory state when the page is reloaded
@@ -17,54 +22,44 @@ class CreatePost extends Component {
         this.setState({ categories: nextProps.categories })
     }
 
-	submitData = (e) => {
+	submitData = e => {
 		e.preventDefault()
 
 		const values = serializeForm(e.target, { hash: true })
 		values.timestamp = parseInt(values.timestamp, 10)
-		values.commentCount = 0
 		values.voteScore = 0
 		values.deleted = false
+		values.commentCount = 0
+
+		api.createPost(values).then(data => {
+			this.props.createNewPost(data)
+		}).then(
+			this.setState({ redirectToHome: true })
+		)
 	}
 
     render() {
         this.props.history.listen(location => {
             //updates the currentCategory state each time the route gets updated
-            this.setState({ currentCategory: location.pathname.replace(/^\/+/g, '') })
+			this.setState({ currentCategory: location.pathname.replace(/^\/+/g, '') })
+			this.setState({ categories: this.props.categories })
         })
 
-        const { categories } = this.state
+		const { from } = this.props.location.state || '/'
+    	const { redirectToHome } = this.state
 
         return (
             <div className={styles.createpost}>
 				{
 					<form onSubmit={this.submitData} className={styles.createpost_form}>
+						<input className={styles.hidden} type="text" readOnly name="id" value={uuidv1()}></input>
+						<input className={styles.hidden} type="number" readOnly name="timestamp" value={Date.now()}></input>
 						<input
 							type="text"
 							placeholder="Post Title"
 							name="title"
 							required
 						/>
-
-						<input
-							type="text"
-							placeholder="author"
-							name="author"
-							required
-						/>
-
-						<label>Please select a Category</label>
-						{
-							categories && categories.map(category => (
-								<span key={ category.name }>
-									<input required type="radio" id={ category.name } name="category" value={ category.name }/>
-									<label htmlFor={ category.name }>{ category.name }</label>
-								</span>
-							))
-						}
-						<input className={styles.hidden} type="number" readOnly name="timestamp" value={Date.now()}></input>
-						<input className={styles.hidden} type="text" readOnly name="id" value={uuidv1()}></input>
-
 						<textarea
 							name="body"
 							rows="4"
@@ -73,10 +68,28 @@ class CreatePost extends Component {
 							required
 							>
 						</textarea>
-
+						<input
+							type="text"
+							placeholder="author"
+							name="author"
+							required
+						/>
+						<label>Please select a Category</label>
+						{
+							this.props.categories && this.props.categories.map(category => (
+								<span key={ category.name }>
+									<input selected required type="radio" id={ category.name } name="category" value={ category.name }/>
+									<label htmlFor={ category.name }>{ category.name }</label>
+								</span>
+							))
+						}
 						<button>Submit</button>
 					</form>
 				}
+				{
+					redirectToHome && (
+					<Redirect to={from || '/'}/>
+				)}
             </div>
         )
     }
@@ -88,4 +101,10 @@ const mapStateToProps = appState => (
     }
 )
 
-export default connect( mapStateToProps )(CreatePost)
+const mapDispatchToProps = dispatch => (
+	{
+		createNewPost: data => dispatch(postCreator(data))
+	}
+)
+
+export default connect( mapStateToProps, mapDispatchToProps )(CreatePost)

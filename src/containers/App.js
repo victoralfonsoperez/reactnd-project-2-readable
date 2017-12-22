@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-//import styles from './App.scss'
+import styles from './App.scss'
 import * as api from '../utils/api'
 import { Route, withRouter } from 'react-router-dom'
-import { postCreator, postDeleter, getAllPosts, getAllCategories } from '../actions'
+import { postDeleter, getAllPosts, getAllCategories } from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
 import CreatePost from '../components/CreatePost'
@@ -24,7 +24,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div className={styles.app}>
         <Route component={Header}/>
         <Route path="/" component={Posts}/>
         <Route exact path="/create" component={CreatePost}/>
@@ -41,10 +41,9 @@ const mapStateToProps = appState => (
 
 const mapDispatchToProps = dispatch => (
   {
-    getPosts: (data) => dispatch(getAllPosts(data)),
-    getCategories: (data) => dispatch(getAllCategories(data)),
-    createNewPost: (data) => dispatch(postCreator(data)),
-    deleteOldPost: (data) => dispatch(postDeleter(data))
+    getPosts: data => dispatch(getAllPosts(data)),
+    getCategories: data => dispatch(getAllCategories(data)),
+    deleteOldPost: data => dispatch(postDeleter(data))
   }
 )
 

@@ -6,7 +6,7 @@ import {
 } from '../actions'
 
 function initialPosts (state = {}, action) {
-    const { id, posts, categories } = action
+    const { id, posts, post, categories } = action
 
     switch (action.type) {
         case GET_ALL_POSTS:
@@ -22,9 +22,9 @@ function initialPosts (state = {}, action) {
         case CREATE_POST:
             return {
                 ...state,
-                [id]: {
-                    ...state[id]
-                }
+                posts: [
+                    ...state.posts.concat( [post] )
+                ]
             }
         case DELETE_POST:
             return {
