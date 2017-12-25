@@ -74,12 +74,22 @@
 }
 
 .postauthorpicture {
-    border: solid 1px lighten($green, 5%);
+    align-items: center;
+    border: solid 2px lighten($green, 10%);
+    display: flex;
     margin: 0;
 }
 
 .postauthorfigcaption {
-    visibility: hidden;
+    color: $green;
+    font-weight: bold;
+    margin-left: 10px;
+    text-transform: uppercase;
+
+    span {
+        color: $black;
+        font-weight: lighter;
+    }
 }
 
 .postdate {

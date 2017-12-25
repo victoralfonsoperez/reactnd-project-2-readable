@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import styles from './App.scss'
 import * as api from '../utils/api'
 import { Route, withRouter } from 'react-router-dom'
-import { postDeleter, getAllPosts, getAllCategories } from '../actions'
+import { postDeleter, getAllPosts, getAllCategories, currentPost } from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
 import CreatePost from '../components/CreatePost'
+import EditPost from '../components/EditPost'
 
 class App extends Component {
   state = {
@@ -28,6 +29,7 @@ class App extends Component {
         <Route component={Header}/>
         <Route path="/" component={Posts}/>
         <Route exact path="/create" component={CreatePost}/>
+        <Route path="/edit/" component={EditPost}/>
       </div>
     )
   }

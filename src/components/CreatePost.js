@@ -50,44 +50,42 @@ class CreatePost extends Component {
 
         return (
             <div className={styles.createpost}>
-				{
-					<form onSubmit={this.submitData} className={styles.createpost_form}>
-						<input className={styles.hidden} type="text" readOnly name="id" value={uuidv1()}></input>
-						<input className={styles.hidden} type="number" readOnly name="timestamp" value={Date.now()}></input>
-						<input
-							type="text"
-							placeholder="Post title"
-							name="title"
-							required
-						/>
-						<textarea
-							name="body"
-							rows="4"
-							cols="50"
-							placeholder="Please enter the post body"
-							required
-							>
-						</textarea>
-						<input
-							type="text"
-							placeholder="Post author"
-							name="author"
-							required
-						/>
-						<label className={styles.selectcategory}>Please select a Category</label>
-						<div className={styles.availablecategories}>
-						{
-							this.props.categories && this.props.categories.map(category => (
-								<span className={styles.category} key={ category.name }>
-									<input selected required type="radio" id={ category.name } name="category" value={ category.name }/>
-									<label htmlFor={ category.name }>{ category.name }</label>
-								</span>
-							))
-						}
-						</div>
-						<button className={styles.submitpost}>Submit</button>
-					</form>
-				}
+				<form onSubmit={this.submitData} className={styles.createpost_form}>
+					<input className={styles.hidden} type="text" readOnly name="id" value={uuidv1()}></input>
+					<input className={styles.hidden} type="number" readOnly name="timestamp" value={Date.now()}></input>
+					<input
+						type="text"
+						placeholder="Post title"
+						name="title"
+						required
+					/>
+					<textarea
+						name="body"
+						rows="4"
+						cols="50"
+						placeholder="Please enter the post body"
+						required
+						>
+					</textarea>
+					<input
+						type="text"
+						placeholder="Post author"
+						name="author"
+						required
+					/>
+					<label className={styles.selectcategory}>Please select a Category</label>
+					<div className={styles.availablecategories}>
+					{
+						this.props.categories && this.props.categories.map(category => (
+							<span className={styles.category} key={ category.name }>
+								<input selected required type="radio" id={ category.name } name="category" value={ category.name }/>
+								<label htmlFor={ category.name }>{ category.name }</label>
+							</span>
+						))
+					}
+					</div>
+					<button className={styles.submitpost}>Submit</button>
+				</form>
 				{
 					redirectToHome && (
 					<Redirect to={from || '/'}/>

@@ -41,7 +41,7 @@ class Posts extends Component {
                     ))
                 }
                 {
-                    this.state.posts && this.state.currentCategory !== "" && this.state.posts && this.state.currentCategory !== "create" && this.state.posts.filter(post => post.category === this.state.currentCategory).length === 0 && <span>There are no posts yet, be the first one! <Link to="/create">Create Post</Link></span>
+                    this.state.posts && this.state.currentCategory !== "" && this.state.posts && this.state.currentCategory !== "create" && this.state.currentCategory !== "edit" && this.state.posts.filter(post => post.category === this.state.currentCategory).length === 0 && <span>There are no posts yet, be the first one! <Link to="/create">Create Post</Link></span>
                 }
             </div>
         )

@@ -3,8 +3,8 @@ import * as FontAwesome from 'react-icons/lib/fa'
 import styles from './Post.scss'
 import { connect } from 'react-redux'
 import * as api from '../utils/api'
-import { postDeleter } from '../actions'
-import { NavLink } from 'react-router-dom'
+import { postDeleter, currentPost } from '../actions'
+import { NavLink, Link } from 'react-router-dom'
 
 class Post extends Component {
   state = {}
@@ -13,6 +13,10 @@ class Post extends Component {
     api.deletePost(id).then(data => {
       this.props.deleteOldPost(data.id)
     })
+  }
+
+  setActualPost = post => {
+    this.props.setCurrentPost(post)
   }
 
   render() {
@@ -36,9 +40,11 @@ class Post extends Component {
           <div className={styles.postauthor}>
             <figure className={styles.postauthorpicture}>
               <img src="https://randomuser.me/api/portraits/lego/1.jpg" alt={post.author}/>
-              <figcaption className={styles.postauthorfigcaption}>{post.author}</figcaption>
+              <figcaption className={styles.postauthorfigcaption}>
+                <span>by:</span> {post.author}<br/>
+                <Link to={`/${post.category}`}>{post.category}</Link>
+                </figcaption>
             </figure>
-            <figcaption></figcaption>
           </div>
 
           <div className={styles.postdate}><FontAwesome.FaCalendarO />
@@ -51,7 +57,9 @@ class Post extends Component {
         </div>
 
         <div className="post-actions">
-          <button><FontAwesome.FaEdit/></button>
+          <NavLink to={`/edit/${post.id}`} onClick={() => {this.setActualPost(post)}}>
+            <FontAwesome.FaEdit/>
+          </NavLink>
           <button
           className="delete-button"
           onClick={() => this.deletePost(post.id)}
@@ -91,7 +99,8 @@ const mapStateToProps = appState => (
 
 const mapDispatchToProps = dispatch => (
   {
-    deleteOldPost: data => dispatch(postDeleter(data))
+    deleteOldPost: data => dispatch(postDeleter(data)),
+    setCurrentPost: data => dispatch(currentPost(data))
   }
 )
 
