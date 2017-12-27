@@ -8,7 +8,8 @@ class Posts extends Component {
     state = {
         posts: [],
         categories: [],
-        currentCategory: ''
+        currentCategory: '',
+        currentpost: {}
     }
 
     componentDidMount() {
@@ -20,6 +21,7 @@ class Posts extends Component {
         //sets the posts and categories state when the component receives props
         this.setState({ posts: nextProps.posts })
         this.setState({ categories: nextProps.categories })
+        this.setState({ currentpost: nextProps.currentpost })
     }
 
     render () {
@@ -28,20 +30,22 @@ class Posts extends Component {
             this.setState({ currentCategory: location.pathname.replace(/^\/+/g, '') })
         })
 
+        const { posts, currentCategory, currentpost } = this.state
+
         return (
             <div className={ styles.postscontainer }>
                 {
-                    this.state.currentCategory !== "" && this.state.posts && this.state.posts.filter(post => post.category === this.state.currentCategory).map(post => (
+                    currentCategory !== "" && posts && posts.filter(post => post.category === currentCategory).map(post => (
                         <Post key={ post.id } post={ post }></Post>
                     ))
                 }
                 {
-                    this.state.currentCategory === "" && this.state.posts && this.state.posts.map(post => (
+                    currentCategory === "" && posts && posts.map(post => (
                         <Post key={ post.id } post={ post }></Post>
                     ))
                 }
                 {
-                    this.state.posts && this.state.currentCategory !== "" && this.state.posts && this.state.currentCategory !== "create" && this.state.currentCategory !== "edit" && this.state.posts.filter(post => post.category === this.state.currentCategory).length === 0 && <span>There are no posts yet, be the first one! <Link to="/create">Create Post</Link></span>
+                    currentpost && posts && currentCategory !== "" && posts && currentCategory !== "create" && currentCategory !== "edit" && posts.filter(post => post.category === this.state.currentCategory).length === 0 && <span>There are no posts yet, be the first one! <Link to="/create">Create Post</Link></span>
                 }
             </div>
         )
@@ -51,7 +55,8 @@ class Posts extends Component {
 const mapStateToProps = appState => (
     {
       posts: appState.posts,
-      categories: appState.categories
+      categories: appState.categories,
+      currentpost: appState.currentpost
     }
 )
 

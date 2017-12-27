@@ -25,7 +25,12 @@ class Post extends Component {
   return (
       <div className={styles.post}>
         <div className={styles.posthead}>
-          <NavLink className={styles.posttitle} to={ post.id }>{ post.title }</NavLink>
+          <NavLink
+            className={styles.posttitle}
+            to={ `/${post.id}` }
+            onClick={() => {this.setActualPost(post)}}
+          >{ post.title }
+          </NavLink>
           <div className={styles.postvote}>
             <FontAwesome.FaHeart/> <span className={styles.postvotescore}>{ post.voteScore }</span>
           </div>
@@ -42,7 +47,7 @@ class Post extends Component {
               <img src="https://randomuser.me/api/portraits/lego/1.jpg" alt={post.author}/>
               <figcaption className={styles.postauthorfigcaption}>
                 <span>by:</span> {post.author}<br/>
-                <Link to={`/${post.category}`}>{post.category}</Link>
+                <span>on:</span> <Link to={`/${post.category}`}>{post.category}</Link>
                 </figcaption>
             </figure>
           </div>
@@ -52,40 +57,43 @@ class Post extends Component {
           </div>
         </div>
 
-        <div className="post-comment-count"><FontAwesome.FaCommentsO />
+        <div className={styles.postcommentcount}><FontAwesome.FaCommentsO />
+          <span>Comments</span>
           <span className="post-comment-count-value">{ post.commentCount }</span>
         </div>
 
-        <div className="post-actions">
-          <NavLink to={`/edit/${post.id}`} onClick={() => {this.setActualPost(post)}}>
+        <div className={styles.postactions}>
+          <NavLink
+            to={`/edit/${post.id}`}
+            className={styles.editbutton}
+            onClick={() => {this.setActualPost(post)}}>
             <FontAwesome.FaEdit/>
           </NavLink>
+
           <button
-          className="delete-button"
-          onClick={() => this.deletePost(post.id)}
-          >
+            className={styles.deletebutton}
+            onClick={() => this.deletePost(post.id)}>
             <FontAwesome.FaTrashO/>
           </button>
 
           <button
+            className={styles.downvotebutton}
             disabled={this.state.isDownVoteButtonDisabled}>
-          <FontAwesome.FaThumbsODown/>
+            <FontAwesome.FaThumbsODown/>
           </button>
 
           <button
+            className={styles.upvotebutton}
             disabled={this.state.isUpVoteButtonDisabled}>
-          <FontAwesome.FaThumbsOUp/>
+            <FontAwesome.FaThumbsOUp/>
           </button>
 
-          <button className="comment-button"><FontAwesome.FaComment/></button>
+          <NavLink
+            to="/comment"
+            className={styles.commentbutton}>
+            <FontAwesome.FaComment/>
+          </NavLink>
         </div>
-
-        <NavLink className="read-more"
-          exact={true}
-          to={ `/${post.id}` }>
-            Read More
-        </NavLink>
-
       </div>
     )
   }

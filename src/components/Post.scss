@@ -19,6 +19,7 @@
 }
 
 .posthead {
+    align-items: center;
     display: flex;
     flex-basis: 100%;
     flex-wrap: nowrap;
@@ -30,8 +31,8 @@
 }
 
 .postvote {
-    display: flex;
     color: $red;
+    display: flex;
     flex-basis: 10%;
     flex-grow: 2;
     font-size: 12px;
@@ -100,4 +101,51 @@
 
 .postdatevalue {
     margin-left: 4px;
+}
+
+.postcommentcount {
+    color: $green;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    width: 100%;
+
+    svg,
+    span:not(:last-child) {
+        margin-right: 8px;
+    }
+}
+
+.postactions {
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    padding: 0 20px;
+
+    button {
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.deletebutton,
+.downvotebutton,
+.upvotebutton,
+.commentbutton {
+    cursor: pointer;
+}
+
+.deletebutton,
+.downvotebutton {
+    color: darken($red, 15%);
+}
+
+.editbutton,
+.commentbutton {
+    color: darken($blue, 15%);
+}
+
+.upvotebutton {
+    color: darken($green, 15%);
 }

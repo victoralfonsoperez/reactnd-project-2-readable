@@ -11,55 +11,69 @@ const headers = {
 export const getCategories = () =>
     axios.get(`${api}/categories`, { headers })
         .then(data => data.data && data.data.categories)
+        .catch(error => console.error(error))
 
 export const getPosts = () =>
     axios.get(`${api}/posts`, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const getSinglePost = id =>
     axios.get(`${api}/posts/${id}`, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const getCategoryPosts = category =>
     axios.get(`${api}/${category}/posts`, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const createPost = data =>
     axios.post(`${api}/posts`, data, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const votePost = (id, vote) =>
     axios.post(`${api}/posts/${id}`, vote, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const editPost = (id, data) =>
     axios.put(`${api}/posts/${id}`, data, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const deletePost = id =>
     axios.delete(`${api}/posts/${id}`, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const getPostComments = id =>
     axios.get(`${api}/posts/${id}/comments`, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const commentPost = data =>
     axios.post(`${api}/comments`, data, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const getComment = id =>
     axios.get(`${api}/comments/${id}`, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const voteComment = (id, vote) =>
     axios.post(`${api}/comments/${id}`, vote, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const deleteComment = id =>
     axios.delete(`${api}/comments/${id}`, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))
 
 export const editComment = (id, data) =>
     axios.put(`${api}/comments/${id}`, data, { headers })
         .then(data => data.data)
+        .catch(error => console.error(error))

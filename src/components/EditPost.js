@@ -13,8 +13,10 @@ class EditPost extends Component {
     }
 
     componentDidMount() {
-        let postid = this.props.location.pathname.replace(/^\/edit[\/]?/, '')
-        api.getSinglePost(postid).then(currentpost => this.setState({ currentpost })).then(data => this.props.setCurrentPost(this.state.currentpost))
+        let postid = this.props.location.pathname.replace(/^\/edit\/?/, '')
+        api.getSinglePost(postid)
+            .then(currentpost => this.setState({ post: currentpost }))
+            .then(data => this.props.setCurrentPost(this.state.post))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,11 +39,12 @@ class EditPost extends Component {
         const { from } = this.props.location.state || '/'
     	const { redirectToHome } = this.state
         const { post } = this.state
+        const { categories } = this.props
 
         return (
             <div>
                 <form className={styles.createpost_form} onSubmit={(e) => {this.submitData(e, post.id)}}>
-                    <label htmlFor="posttitle">Title</label>
+                    <label className={styles.label} htmlFor="posttitle">Title</label>
                     <input
                         type="text"
                         id="posttitle"
@@ -51,7 +54,7 @@ class EditPost extends Component {
                         name="title"
                         required
                     />
-                    <label htmlFor="postauthor">Author</label>
+                    <label className={styles.label} htmlFor="postauthor">Author</label>
                     <input
                         defaultValue={ post.author }
                         required
@@ -61,12 +64,12 @@ class EditPost extends Component {
                         name="author"
                         type="text"
                     />
-                    <label htmlFor="postbody">Body</label>
+                    <label className={styles.label} htmlFor="postbody">Body</label>
                     <textarea
                         name="body"
                         rows="4"
                         cols="50"
-                        iD="postbody"
+                        id="postbody"
                         placeholder="post body"
                         defaultValue={ post.body }
                         required
@@ -77,7 +80,7 @@ class EditPost extends Component {
                     <label className={styles.selectcategory}>Please select a Category</label>
                     <div className={styles.availablecategories}>
                     {
-                        this.props.categories && this.props.categories.map(category => (
+                        categories && categories.map(category => (
                             <span className={styles.category} key={ category.name }>
                                 <input defaultChecked={category.name === post.category} required type="radio" id={ category.name } name="category" value={ category.name }/>
                                 <label htmlFor={ category.name }>{ category.name }</label>
