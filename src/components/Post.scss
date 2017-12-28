@@ -10,11 +10,11 @@
     flex-basis: 100%;
 
     @include tablet {
-        flex-basis: 30%;
+        flex-basis: calc(49% - 60px);
     }
 
     @include desktop {
-        flex-basis: 25%;
+        flex-basis: calc(33% - 60px);
     }
 }
 
@@ -46,9 +46,14 @@
 }
 
 .postbody {
+    border-bottom: solid 2px;
+    border-bottom-color: rgba(lighten($black, 15%), 0.2);
     color: lighten($black, 5%);
+    display: block;
     flex-basis: 100%;
     font-weight: lighter;
+    margin-bottom: #{$margin}px;
+    padding-bottom: #{$padding}px;
 
     p {
         @include truncateAfterLines(1.5);
@@ -104,24 +109,44 @@
 }
 
 .postcommentcount {
-    color: $green;
+    color: rgba(lighten($green, 10%), 0.5);
     display: flex;
-    justify-content: flex-end;
-    font-size: 12px;
+    justify-content: center;
+    font-size: 16px;
+    margin: #{$margin}px 0;
     width: 100%;
 
     svg,
     span:not(:last-child) {
         margin-right: 8px;
     }
+
+    @include tablet {
+        font-size: 14px;
+    }
+
+    @include desktop {
+        font-size: 12px;
+    }
 }
 
 .postactions {
     align-items: center;
     display: flex;
+    font-size: 24px;
     justify-content: space-around;
-    margin-top: 20px;
-    padding: 0 20px;
+    margin-top: #{$margin}px;
+    padding: 0 #{$padding}px;
+
+    @include tablet {
+        justify-content: flex-end;
+        font-size: 20px;
+    }
+
+    @include desktop {
+        justify-content: flex-end;
+        font-size: 18px;
+    }
 
     button {
         background-color: transparent;
