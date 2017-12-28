@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import styles from './Posts.scss'
 import { connect } from 'react-redux'
 import Post from './Post'
-import { Link } from 'react-router-dom';
 
 class Posts extends Component {
     state = {
@@ -30,7 +29,7 @@ class Posts extends Component {
             this.setState({ currentCategory: location.pathname.replace(/^\/+/g, '') })
         })
 
-        const { posts, currentCategory, currentpost } = this.state
+        const { posts, currentCategory } = this.state
 
         return (
             <div className={ styles.postscontainer }>
@@ -43,9 +42,6 @@ class Posts extends Component {
                     currentCategory === "" && posts && posts.map(post => (
                         <Post key={ post.id } post={ post }></Post>
                     ))
-                }
-                {
-                    currentpost && posts && currentCategory !== "" && posts && currentCategory !== "create" && currentCategory !== "edit" && posts.filter(post => post.category === this.state.currentCategory).length === 0 && <span>There are no posts yet, be the first one! <Link to="/create">Create Post</Link></span>
                 }
             </div>
         )

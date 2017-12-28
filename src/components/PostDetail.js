@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import * as api from '../utils/api'
 import { NavLink, Link, Redirect } from 'react-router-dom'
 import { postDeleter, currentPost } from '../actions'
+import Comment from './Comment'
 
 class PostDetail extends Component {
     state = {
@@ -17,6 +18,10 @@ class PostDetail extends Component {
         api.deletePost(id)
             .then(data => {this.props.deleteOldPost(data.id)})
             .then(data => this.setState({ redirectToHome: true }))
+    }
+
+    setActualPost = post => {
+        this.props.setCurrentPost(post)
     }
 
     componentDidMount() {
@@ -34,90 +39,81 @@ class PostDetail extends Component {
 
         return (
             <div>
-                <div className={styles.postdetail}>
-                    <div className={styles.postdetailhead}>
-                        <h3 className={styles.postdetailtitle}>{ post.title }</h3>
-                        <div className={styles.postdetailvote}>
-                            <FontAwesome.FaHeart/> <span className={styles.postvotescore}>{ post.voteScore }</span>
+                {
+                    post &&
+                    <div>
+                        <div className={styles.postdetail}>
+                            <div className={styles.postdetailhead}>
+                                <h3 className={styles.postdetailtitle}>{ post.title }</h3>
+                                <div className={styles.postdetailvote}>
+                                    <FontAwesome.FaHeart/> <span className={styles.postvotescore}>{ post.voteScore }</span>
+                                </div>
+                            </div>
+                            <div className={styles.postbody}>
+                                <p>{ post.body }</p>
+                            </div>
+                            
+                            <div className={styles.postdetaildata}>
+                            <div className={styles.postauthor}>
+                                <figure className={styles.postauthorpicture}>
+                                    <img src="https://randomuser.me/api/portraits/lego/1.jpg" alt={post.author}/>
+                                    <figcaption className={styles.postauthorfigcaption}>
+                                        <span>by:</span> {post.author}<br/>
+                                        <span>on:</span> <Link to={`/${post.category}`}>{post.category}</Link>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                                <div className={styles.postdate}><FontAwesome.FaCalendarO />
+                                    <span className={styles.postdatevalue}>{ new Date(post.timestamp).toLocaleString() }</span>
+                                </div>
+                            </div>
+
+                            <div className={styles.postcommentcount}><FontAwesome.FaCommentsO />
+                                <span>Comments</span>
+                                <span className="post-comment-count-value">{ post.commentCount }</span>
+                            </div>
+
+                            <div className={styles.postactions}>
+                                <NavLink
+                                    to={`/edit/${post.id}`}
+                                    className={styles.editbutton}
+                                    onClick={() => {this.setActualPost(post)}}>
+                                    <FontAwesome.FaEdit/>
+                                </NavLink>
+
+                                <button
+                                    className={styles.deletebutton}
+                                    onClick={() => this.deletePost(post.id)}>
+                                    <FontAwesome.FaTrashO/>
+                                </button>
+
+                                <button
+                                    className={styles.downvotebutton}
+                                    disabled={this.state.isDownVoteButtonDisabled}>
+                                    <FontAwesome.FaThumbsODown/>
+                                </button>
+
+                                <button
+                                    className={styles.upvotebutton}
+                                    disabled={this.state.isUpVoteButtonDisabled}>
+                                    <FontAwesome.FaThumbsOUp/>
+                                </button>
+                            </div>
+                            {
+                                redirectToHome && (
+                                    <Redirect to={from || '/'}/>
+                                )
+                            }
                         </div>
                     </div>
-                    <div className={styles.postbody}>
-                        <p>
-                            { post.body }
-                        </p>
-                    </div>
-                    
-                    <div className={styles.postdetaildata}>
-                    <div className={styles.postauthor}>
-                        <figure className={styles.postauthorpicture}>
-                            <img src="https://randomuser.me/api/portraits/lego/1.jpg" alt={post.author}/>
-                            <figcaption className={styles.postauthorfigcaption}>
-                                <span>by:</span> {post.author}<br/>
-                                <span>on:</span> <Link to={`/${post.category}`}>{post.category}</Link>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <div className={styles.postdate}><FontAwesome.FaCalendarO />
-                            <span className={styles.postdatevalue}>{ new Date(post.timestamp).toLocaleString() }</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.postcommentcount}><FontAwesome.FaCommentsO />
-                        <span>Comments</span>
-                        <span className="post-comment-count-value">{ post.commentCount }</span>
-                    </div>
-
-                    <div className={styles.postactions}>
-                        <NavLink
-                            to={`/edit/${post.id}`}
-                            className={styles.editbutton}
-                            onClick={() => {this.setActualPost(post)}}>
-                            <FontAwesome.FaEdit/>
-                        </NavLink>
-
-                        <button
-                            className={styles.deletebutton}
-                            onClick={() => this.deletePost(post.id)}>
-                            <FontAwesome.FaTrashO/>
-                        </button>
-
-                        <button
-                            className={styles.downvotebutton}
-                            disabled={this.state.isDownVoteButtonDisabled}>
-                            <FontAwesome.FaThumbsODown/>
-                        </button>
-
-                        <button
-                            className={styles.upvotebutton}
-                            disabled={this.state.isUpVoteButtonDisabled}>
-                            <FontAwesome.FaThumbsOUp/>
-                        </button>
-
-                        <NavLink
-                            to="/comment"
-                            className={styles.commentbutton}>
-                            <FontAwesome.FaComment/>
-                        </NavLink>
-                    </div>
-                    {
-                        redirectToHome && (
-                            <Redirect to={from || '/'}/>
-                        )
-                    }
-                </div>
+                }
+                {
+                    <Link to="/comment">Create comment <FontAwesome.FaComment/></Link>
+                }
                 {
                     comments && comments.map(comment => (
-                        <div>
-                            <div>{comment.author}</div>
-                            <div>{comment.body}</div>
-                            <div>{comment.deleted}</div>
-                            <div>{comment.id}</div>
-                            <div>{comment.parentDeleted}</div>
-                            <div>{comment.parentId}</div>
-                            <div>{comment.timestamp}</div>
-                            <div>{comment.voteScore}</div>
-                        </div>
-                    ))
+                        <Comment comment={comment}></Comment>)
+                    )
                 }
             </div>
         )

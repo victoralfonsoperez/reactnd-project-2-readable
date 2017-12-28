@@ -19,7 +19,9 @@ class App extends Component {
   }
 
   componentDidMount () {
-    let postid = this.props.location.pathname.replace(/^\/+/g, '')
+    //gets the current post id from the url, then request the info to the API
+    //when the pages gets refreshed
+    let postid = this.props.location.pathname.match(/\w+$/) && this.props.location.pathname.match(/\w+$/)[0]
     //fetching all the available posts from the api, then updating the store
     api.getPosts()
       .then(posts => this.setState({ posts }))
@@ -49,7 +51,7 @@ class App extends Component {
         <Route exact path="/create" component={CreatePost}/>
         <Route path="/edit" component={EditPost}/>
         <Switch>
-          <Route path={`/${currentpost.id}`} component={PostDetail}/>
+          <Route path={currentpost && `/${currentpost.id}`} component={PostDetail}/>
         </Switch>
       </div>
     )

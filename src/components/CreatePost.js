@@ -14,8 +14,8 @@ class CreatePost extends Component {
     
     componentDidMount() {
         //sets the currentCategory state when the page is reloaded
-        this.setState({ currentCategory: this.props.location.pathname.replace(/^\/+/g, '') })
-    }
+		this.setState({ currentCategory: this.props.location.pathname.replace(/^\/+/g, '') })
+	}
 
     componentWillReceiveProps(nextProps) {
         //sets the categories state when the component receives props

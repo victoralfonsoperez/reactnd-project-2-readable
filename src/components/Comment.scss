@@ -1,0 +1,7 @@
+@import './scss/variables';
+
+.comment {
+    display: flex;
+    margin: 0 #{$margin}px;
+    padding: #{$padding}px;
+}

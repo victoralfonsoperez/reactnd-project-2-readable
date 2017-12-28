@@ -40,62 +40,76 @@ class EditPost extends Component {
     	const { redirectToHome } = this.state
         const { post } = this.state
         const { categories } = this.props
+        const { goBack } = this.props.history
 
         return (
             <div>
-                <form className={styles.createpost_form} onSubmit={(e) => {this.submitData(e, post.id)}}>
-                    <label className={styles.label} htmlFor="posttitle">Title</label>
-                    <input
-                        type="text"
-                        id="posttitle"
-                        key={ post.title }
-                        defaultValue={ post.title }
-                        placeholder="title"
-                        name="title"
-                        required
-                    />
-                    <label className={styles.label} htmlFor="postauthor">Author</label>
-                    <input
-                        defaultValue={ post.author }
-                        required
-                        id="postauthor"
-                        placeholder="author"
-                        key={ post.author }
-                        name="author"
-                        type="text"
-                    />
-                    <label className={styles.label} htmlFor="postbody">Body</label>
-                    <textarea
-                        name="body"
-                        rows="4"
-                        cols="50"
-                        id="postbody"
-                        placeholder="post body"
-                        defaultValue={ post.body }
-                        required
-                        key={ post.body }
+                {
+                    post &&
+                    <div>
+                        <form className={styles.createpost_form} onSubmit={(e) => {this.submitData(e, post.id)}}>
+                            <label className={styles.label} htmlFor="posttitle">Title</label>
+                            <input
+                                type="text"
+                                id="posttitle"
+                                key={ post.title }
+                                defaultValue={ post.title }
+                                placeholder="title"
+                                name="title"
+                                required
+                            />
+                            <label className={styles.label} htmlFor="postauthor">Author</label>
+                            <input
+                                defaultValue={ post.author }
+                                required
+                                id="postauthor"
+                                placeholder="author"
+                                key={ post.author }
+                                name="author"
+                                type="text"
+                            />
+                            <label className={styles.label} htmlFor="postbody">Body</label>
+                            <textarea
+                                name="body"
+                                rows="4"
+                                cols="50"
+                                id="postbody"
+                                placeholder="post body"
+                                defaultValue={ post.body }
+                                required
+                                key={ post.body }
+                                >
+                            </textarea>
+
+                            <label className={styles.selectcategory}>Please select a Category</label>
+                            <div className={styles.availablecategories}>
+                            {
+                                categories && categories.map(category => (
+                                    <span className={styles.category} key={ category.name }>
+                                        <input defaultChecked={category.name === post.category} required type="radio" id={ category.name } name="category" value={ category.name }/>
+                                        <label htmlFor={ category.name }>{ category.name }</label>
+                                    </span>
+                                ))
+                            }
+                            </div>
+
+                            <button className={styles.submitpost}>Submit</button>
+                    </form>
+
+                    <button
+                        className={styles.submitpost}
+                        onClick={() => goBack()}
                         >
-                    </textarea>
-
-                    <label className={styles.selectcategory}>Please select a Category</label>
-                    <div className={styles.availablecategories}>
-                    {
-                        categories && categories.map(category => (
-                            <span className={styles.category} key={ category.name }>
-                                <input defaultChecked={category.name === post.category} required type="radio" id={ category.name } name="category" value={ category.name }/>
-                                <label htmlFor={ category.name }>{ category.name }</label>
-                            </span>
-                        ))
-                    }
+                        Cancel
+                    </button>
                     </div>
-
-                    <button className={styles.submitpost}>Submit</button>
-            </form>
+                }
 
             {
                 redirectToHome && (
-                <Redirect to={from || '/'}/>
-            )}
+                    <Redirect to={from || '/'}/>
+                )
+            }
             </div>
         )
     }
