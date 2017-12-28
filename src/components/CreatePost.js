@@ -26,6 +26,7 @@ class CreatePost extends Component {
 		e.preventDefault()
 
 		const values = serializeForm(e.target, { hash: true })
+		values.id = values.id.replace(/-/g, '')
 		values.timestamp = parseInt(values.timestamp, 10)
 		values.voteScore = 0
 		values.deleted = false
@@ -103,9 +104,9 @@ class CreatePost extends Component {
     }
 }
 
-const mapStateToProps = appState => (
+const mapStateToProps = ({posts, comments}) => (
     {
-      categories: appState.categories
+      categories: posts.categories
     }
 )
 

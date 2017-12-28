@@ -21,7 +21,7 @@ class App extends Component {
   componentDidMount () {
     //gets the current post id from the url, then request the info to the API
     //when the pages gets refreshed
-    let postid = this.props.location.pathname.match(/\w+$/) && this.props.location.pathname.match(/\w+$/)[0]
+    let postid = (this.props.location.pathname.match(/\w+$/) && this.props.location.pathname.match(/\w+$/)[0]) || ''
     //fetching all the available posts from the api, then updating the store
     api.getPosts()
       .then(posts => this.setState({ posts }))
@@ -37,12 +37,10 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps) {
     //sets the posts and categories state when the component receives props
-    this.setState({ currentpost: nextProps.appState.currentpost })
+    this.setState({ currentpost: nextProps.posts.currentpost })
   }
 
   render() {
-
-    const { currentpost } = this.state
 
     return (
       <div className={styles.app}>
@@ -51,16 +49,20 @@ class App extends Component {
         <Route exact path="/create" component={CreatePost}/>
         <Route path="/edit" component={EditPost}/>
         <Switch>
-          <Route path={currentpost && `/${currentpost.id}`} component={PostDetail}/>
+          {
+            this.props.posts.currentpost &&
+            <Route path={this.props.posts.currentpost && `/${this.props.posts.currentpost.id}`} component={PostDetail}/>
+          }
         </Switch>
       </div>
     )
   }
 }
 
-const mapStateToProps = appState => (
+const mapStateToProps = ({posts, comments}) => (
   {
-    appState
+    posts,
+    comments
   }
 )
 

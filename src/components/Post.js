@@ -99,9 +99,10 @@ class Post extends Component {
   }
 }
 
-const mapStateToProps = appState => (
+const mapStateToProps = ({posts, comments}) => (
   {
-    appState
+    posts,
+    comments
   }
 )
 

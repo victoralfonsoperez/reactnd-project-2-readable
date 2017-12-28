@@ -39,7 +39,7 @@ class Posts extends Component {
                     ))
                 }
                 {
-                    currentCategory === "" && posts && posts.map(post => (
+                    currentCategory === "" && posts && posts.length !== 0 && posts.map(post => (
                         <Post key={ post.id } post={ post }></Post>
                     ))
                 }
@@ -48,11 +48,11 @@ class Posts extends Component {
     }
 }
 
-const mapStateToProps = appState => (
+const mapStateToProps = ({posts, comments}) => (
     {
-      posts: appState.posts,
-      categories: appState.categories,
-      currentpost: appState.currentpost
+      posts: posts.posts,
+      categories: posts.categories,
+      currentpost: posts.currentpost
     }
 )
 

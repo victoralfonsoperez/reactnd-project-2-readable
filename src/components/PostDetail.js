@@ -112,7 +112,7 @@ class PostDetail extends Component {
                 }
                 {
                     comments && comments.map(comment => (
-                        <Comment comment={comment}></Comment>)
+                        <Comment key={comment.id} comment={comment}></Comment>)
                     )
                 }
             </div>
@@ -120,9 +120,9 @@ class PostDetail extends Component {
     }
 }
 
-const mapStateToProps = appState => (
+const mapStateToProps = ({posts, comments}) => (
     {
-      currentpost: appState.currentpost
+      currentpost: posts.currentpost
     }
 )
 

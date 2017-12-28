@@ -115,10 +115,10 @@ class EditPost extends Component {
     }
 }
 
-const mapStateToProps = appState => (
+const mapStateToProps = ({posts, comments}) => (
     {
-      currentpost: appState.currentpost,
-      categories: appState.categories
+      currentpost: posts.currentpost,
+      categories: posts.categories
     }
 )
 

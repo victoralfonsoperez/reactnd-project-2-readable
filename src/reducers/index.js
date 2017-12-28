@@ -1,13 +1,23 @@
+import { combineReducers } from 'redux'
 import {
     CREATE_POST,
     DELETE_POST,
     GET_ALL_POSTS,
     GET_ALL_CATEGORIES,
     CURRENT_POST,
-    EDIT_POST
+    EDIT_POST,
+    CREATE_COMMENT,
+    DELETE_COMMENT
 } from '../actions'
 
-function initialPosts (state = {posts: [], categories: [], currentpost: {}}, action) {
+const initialState = {
+    posts: [],
+    categories: [],
+    currentpost: {},
+    comments: []
+}
+
+function posts (state = initialState, action) {
     const { id, posts, post, categories } = action
 
     switch (action.type) {
@@ -55,6 +65,33 @@ function initialPosts (state = {posts: [], categories: [], currentpost: {}}, act
         default:
             return state
     }
-  }
+}
 
-export default initialPosts
+function comments (state = {}, action) {
+
+    const { comment, id } = action
+
+    switch (action.type) {
+        case CREATE_COMMENT:
+            return {
+                ...state,
+                comments: [
+                    ...state.comments.concat( [ comment ] )
+                ]
+            }
+        case DELETE_COMMENT:
+            return {
+                ...state,
+                comments: [
+                    ...state.comments.filter(comment => comment.id !== id)
+                ]
+            }
+        default:
+            return state
+    }
+}
+
+export default combineReducers({
+    posts,
+    comments,
+})
