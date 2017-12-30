@@ -13,8 +13,10 @@ class CreatePost extends Component {
 	}
     
     componentDidMount() {
-        //sets the currentCategory state when the page is reloaded
-		this.setState({ currentCategory: this.props.location.pathname.replace(/^\/+/g, '') })
+		//sets the currentCategory state when the page is reloaded
+		const category = this.props.location.pathname.replace(/^\/+/g, '')
+		const currentcat = (category && category !== 'create') || ''
+		this.setState({ currentCategory: currentcat })
 	}
 
     componentWillReceiveProps(nextProps) {
@@ -40,11 +42,6 @@ class CreatePost extends Component {
 	}
 
     render() {
-        this.props.history.listen(location => {
-            //updates the currentCategory state each time the route gets updated
-			this.setState({ currentCategory: location.pathname.replace(/^\/+/g, '') })
-			this.setState({ categories: this.props.categories })
-        })
 
 		const { from } = this.props.location.state || '/'
 		const { redirectToHome } = this.state

@@ -7,14 +7,14 @@ import {
     CURRENT_POST,
     EDIT_POST,
     CREATE_COMMENT,
-    DELETE_COMMENT
+    DELETE_COMMENT,
+    GET_COMMENTS
 } from '../actions'
 
 const initialState = {
     posts: [],
     categories: [],
-    currentpost: {},
-    comments: []
+    currentpost: {}
 }
 
 function posts (state = initialState, action) {
@@ -69,20 +69,25 @@ function posts (state = initialState, action) {
 
 function comments (state = {}, action) {
 
-    const { comment, id } = action
+    const { comment, comments, id } = action
 
     switch (action.type) {
+        case GET_COMMENTS:
+            return {
+                ...state,
+                comments: comments
+            }
         case CREATE_COMMENT:
             return {
                 ...state,
-                comments: [
-                    ...state.comments.concat( [ comment ] )
+                [comment.parentId]: [
+                    ...state[comment.parentId].concat( comment )
                 ]
             }
         case DELETE_COMMENT:
             return {
                 ...state,
-                comments: [
+                comments: [ 
                     ...state.comments.filter(comment => comment.id !== id)
                 ]
             }

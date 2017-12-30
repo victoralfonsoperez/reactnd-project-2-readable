@@ -29,6 +29,7 @@ class PostDetail extends Component {
         api.getSinglePost(postid)
             .then(currentpost => this.setState({ post: currentpost }))
         api.getPostComments(postid)
+            //TODO set the comments to the store
             .then(data => this.setState({ comments: data}))
     }
 
@@ -108,10 +109,18 @@ class PostDetail extends Component {
                     </div>
                 }
                 {
-                    <Link to="/comment">Create comment <FontAwesome.FaComment/></Link>
+                    <Link
+                        className={styles.createpostlink}
+                        to={`/newcomment/${post.id}`}>Create comment
+                    </Link>
                 }
                 {
-                    comments && comments.map(comment => (
+                    comments && comments.length !== 0 && (
+                        <h2 className={styles.commentheading}>COMMENTS</h2>
+                    )
+                }
+                {
+                    comments && comments.length !== 0 && comments.map(comment => (
                         <Comment key={comment.id} comment={comment}></Comment>)
                     )
                 }

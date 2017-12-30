@@ -1,7 +1,105 @@
+@import './scss/mixins';
 @import './scss/variables';
 
 .comment {
-    display: flex;
-    margin: 0 #{$margin}px;
+    border: solid 1px rgba(lighten($green, 10%), 0.25);
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px 0px rgba(lighten($black, 10%), 0.2);
+    flex-basis: 100%;
+    margin: #{$margin}px #{$margin / 2}px;
     padding: #{$padding}px;
+
+    @include tablet {
+        margin: #{$margin / 2}px auto;
+        padding: #{$padding + 10}px;
+        width: 60%;
+    }
+
+    @include desktop {
+        margin: #{$margin / 2}px auto;
+        padding: #{$padding * 2}px;
+        width: 50%;
+    }
+}
+
+.commentbody {
+    color: lighten($black, 5%);
+    font-size: 16px;
+    font-weight: lighter;
+    margin: #{$margin / 2}px 0;
+}
+
+.commenthead {
+    align-items: center;
+    color: darken($blue, 5%);
+    display: flex;
+    font-size: 12px;
+    font-weight: lighter;
+    justify-content: flex-start;
+    padding: #{$padding / 2}px 0;
+    text-transform: uppercase;
+}
+
+.commentauthorname {
+    font-weight: bold;
+}
+
+.commentauthorpicture {
+    border: solid 2px $red;
+    border-radius: 50%;
+    display: block;
+    flex-basis: 42px;
+    height: 42px;
+    margin-right: 10px;
+    width: 42px;
+}
+
+.commentvotescore {
+    flex-basis: 10%;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.headerdata {
+    flex-basis: calc(90% - 42px);
+    flex-shrink: 2;
+}
+
+.commentactions {
+    align-items: center;
+    display: flex;
+    font-size: 24px;
+    justify-content: space-around;
+    margin-top: $margin;
+    padding: 0 #{$padding}px;
+
+    @include desktop {
+        justify-content: flex-end;
+        font-size: 18px;
+    }
+
+    button {
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.commentdeletebutton,
+.commentdownvotebutton,
+.commentupvotebutton {
+    cursor: pointer;
+}
+
+.commentdeletebutton,
+.commentdownvotebutton {
+    color: darken($red, 15%);
+}
+
+.commenteditbutton {
+    color: darken($blue, 15%);
+}
+
+.commentupvotebutton {
+    color: darken($green, 15%);
 }

@@ -16,5 +16,9 @@
     @include desktop {
         justify-content: flex-start;
     }
+
+    &:empty {
+        padding: 0;
+    }
 }
 

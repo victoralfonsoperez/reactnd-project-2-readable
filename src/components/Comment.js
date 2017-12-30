@@ -10,40 +10,51 @@ class Comment extends Component {
         const { comment } = this.props
 
         return (
-            <div className={styles.comment}>
-                <div>{comment.author}</div>
-                <div>{comment.body}</div>
-                <div>{comment.deleted}</div>
-                <div>{comment.id}</div>
-                <div>{comment.parentDeleted}</div>
-                <div>{comment.parentId}</div>
-                <div>{comment.timestamp}</div>
-                <div>{comment.voteScore}</div>
+            <div>
+                {
+                    comment && (
+                        <div className={styles.comment}>
+                            <div className={styles.commenthead}>
+                                <div className={styles.commentauthorpicture}>
+                                    <figure></figure>
+                                </div>
+                                <div className={styles.headerdata}>
+                                    <div className={styles.commentauthorname}>{comment.author}</div>
+                                    <span>{ new Date(comment.timestamp).toLocaleString() }</span>
+                                </div>
+                                <div className={styles.commentvotescore}>{comment.voteScore}</div>
+                            </div>
+                            <div className={styles.commentbody}>
+                                <p>{comment.body}</p>
+                            </div>
 
-                <div className={styles.postactions}>
-                    <NavLink
-                        to={`/editcomment/${comment.id}`}
-                        className={styles.editbutton}
-                        onClick={() => {}}>
-                        <FontAwesome.FaEdit/>
-                    </NavLink>
+                            <div className={styles.commentactions}>
+                                <NavLink
+                                    to={`/editcomment/${comment.id}`}
+                                    className={styles.commenteditbutton}
+                                    onClick={() => {}}>
+                                    <FontAwesome.FaEdit/>
+                                </NavLink>
 
-                    <button
-                        className={styles.deletebutton}
-                        onClick={() => {}}>
-                        <FontAwesome.FaTrashO/>
-                    </button>
+                                <button
+                                    className={styles.commentdeletebutton}
+                                    onClick={() => {}}>
+                                    <FontAwesome.FaTrashO/>
+                                </button>
 
-                    <button
-                        className={styles.downvotebutton}>
-                        <FontAwesome.FaThumbsODown/>
-                    </button>
+                                <button
+                                    className={styles.commentdownvotebutton}>
+                                    <FontAwesome.FaThumbsODown/>
+                                </button>
 
-                    <button
-                        className={styles.upvotebutton}>
-                        <FontAwesome.FaThumbsOUp/>
-                    </button>
-                </div>
+                                <button
+                                    className={styles.commentupvotebutton}>
+                                    <FontAwesome.FaThumbsOUp/>
+                                </button>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         )
     }

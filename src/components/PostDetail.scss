@@ -210,3 +210,28 @@
 .upvotebutton {
     color: darken($green, 15%);
 }
+
+.createpostlink {
+    background-color: $green;
+    border: solid 1px rgba(lighten($green, 10%), 0.4);
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px 0px rgba(lighten($black, 15%), 0.2);
+    color: $white;
+    cursor: pointer;
+    display: inline-block;
+    margin: #{$margin / 2}px 1em;
+    padding: #{$padding / 2}px;
+    text-decoration: none;
+
+    @include tablet {
+        margin: #{$margin / 2}px #{$margin}px;
+    }
+
+    @include desktop {
+        margin: #{$margin / 2}px #{$margin * 2}px;
+    }
+
+    &:hover {
+        background-color: rgba(darken($green, 2%), 0.6);
+    }
+}

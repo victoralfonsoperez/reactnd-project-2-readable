@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import styles from './App.scss'
 import * as api from '../utils/api'
 import { Route, withRouter, Switch } from 'react-router-dom'
-import { postDeleter, getAllPosts, getAllCategories, currentPost } from '../actions'
+import { postDeleter, getAllPosts, getAllCategories, currentPost, commentGetter } from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
 import CreatePost from '../components/CreatePost'
 import EditPost from '../components/EditPost'
 import PostDetail from '../components/PostDetail'
+import CreateComment from '../components/CreateComment'
 
 class App extends Component {
   state = {
@@ -21,7 +22,10 @@ class App extends Component {
   componentDidMount () {
     //gets the current post id from the url, then request the info to the API
     //when the pages gets refreshed
-    let postid = (this.props.location.pathname.match(/\w+$/) && this.props.location.pathname.match(/\w+$/)[0]) || ''
+    //avoids returning a null value
+    let currentpathname = (this.props.location.pathname.match(/\w+$/) && this.props.location.pathname.match(/\w+$/)[0]) || ''
+    //avoids a bad request to the api
+    let postid = currentpathname !== 'create' ? currentpathname : ''
     //fetching all the available posts from the api, then updating the store
     api.getPosts()
       .then(posts => this.setState({ posts }))
@@ -33,6 +37,8 @@ class App extends Component {
     //fetch the currentpost data, given in the url, when the page gets refreshed
     api.getSinglePost(postid)
       .then(data => this.props.setCurrentPost(data))
+    api.getPostComments(postid)
+      .then(data => this.props.getComments(data))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,8 +57,11 @@ class App extends Component {
         <Switch>
           {
             this.props.posts.currentpost &&
-            <Route path={this.props.posts.currentpost && `/${this.props.posts.currentpost.id}`} component={PostDetail}/>
+            <Route
+              path={this.props.posts.currentpost && `/${this.props.posts.currentpost.id}`}
+              component={PostDetail}/>
           }
+          <CreateComment path="/newcomment"></CreateComment>
         </Switch>
       </div>
     )
@@ -71,7 +80,8 @@ const mapDispatchToProps = dispatch => (
     getPosts: data => dispatch(getAllPosts(data)),
     getCategories: data => dispatch(getAllCategories(data)),
     deleteOldPost: data => dispatch(postDeleter(data)),
-    setCurrentPost: data => dispatch(currentPost(data))
+    setCurrentPost: data => dispatch(currentPost(data)),
+    getComments: data => dispatch(commentGetter(data))
   }
 )
 

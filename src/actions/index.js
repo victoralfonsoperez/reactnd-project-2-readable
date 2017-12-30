@@ -6,6 +6,9 @@ export const EDIT_POST = 'EDIT_POST'
 export const CURRENT_POST = 'CURRENT_POST'
 export const CREATE_COMMENT = 'CREATE_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const GET_COMMENTS = 'GET_COMMENTS'
+
+//ACTIONS FOR POSTS
 
 //action creator to create an action to retrieve all categories
 export const getAllCategories = categories => (
@@ -52,5 +55,31 @@ export const currentPost = post => (
     {
         type: CURRENT_POST,
         post
+    }
+)
+
+//ACTIONS FOR COMMENTS
+
+//action creator to create an action to create a comment
+export const commentGetter = comments => (
+    {
+        type: GET_COMMENTS,
+        comments
+    }
+)
+
+//action creator to create an action to create a comment
+export const commentCreator = comment => (
+    {
+        type: CREATE_COMMENT,
+        comment
+    }
+)
+
+//action creator to create an action to delete a comment
+export const commentDeleter = id => (
+    {
+        type: DELETE_COMMENT,
+        id
     }
 )
