@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styles from './Comment.scss'
 import * as FontAwesome from 'react-icons/lib/fa'
 import { NavLink } from 'react-router-dom'
+import randomPic from '../utils/randompic'
 
 class Comment extends Component {
 
@@ -16,7 +17,9 @@ class Comment extends Component {
                         <div className={styles.comment}>
                             <div className={styles.commenthead}>
                                 <div className={styles.commentauthorpicture}>
-                                    <figure></figure>
+                                    <figure>
+                                        <img className={styles.authorimage} src={randomPic()} alt=""></img>
+                                    </figure>
                                 </div>
                                 <div className={styles.headerdata}>
                                     <div className={styles.commentauthorname}>{comment.author}</div>
@@ -38,18 +41,18 @@ class Comment extends Component {
 
                                 <button
                                     className={styles.commentdeletebutton}
-                                    onClick={() => {}}>
+                                    onClick={() => this.props.onDeleteComment(comment.id)}>
                                     <FontAwesome.FaTrashO/>
                                 </button>
 
                                 <button
                                     className={styles.commentdownvotebutton}>
-                                    <FontAwesome.FaThumbsODown/>
+                                    <FontAwesome.FaMinusCircle/>
                                 </button>
 
                                 <button
                                     className={styles.commentupvotebutton}>
-                                    <FontAwesome.FaThumbsOUp/>
+                                    <FontAwesome.FaPlusCircle/>
                                 </button>
                             </div>
                         </div>

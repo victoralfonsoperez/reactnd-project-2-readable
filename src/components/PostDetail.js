@@ -4,8 +4,9 @@ import styles from './PostDetail.scss'
 import { connect } from 'react-redux'
 import * as api from '../utils/api'
 import { NavLink, Link, Redirect } from 'react-router-dom'
-import { postDeleter, currentPost } from '../actions'
+import { postDeleter, currentPost, commentGetter , commentDeleter} from '../actions'
 import Comment from './Comment'
+import randomPic from '../utils/randompic'
 
 class PostDetail extends Component {
     state = {
@@ -20,6 +21,22 @@ class PostDetail extends Component {
             .then(data => this.setState({ redirectToHome: true }))
     }
 
+    deleteComment = id => {
+        api.deleteComment(id)
+            .then(data => this.props.deleteComment(data.id))
+            //updates the currentpost commentCount each time a comment is deleted
+            .then(data => {
+                this.setState(prevState => ({
+                        ...prevState,
+                        post: {
+                            ...prevState.post,
+                            commentCount: this.state.comments.length
+                        }
+                    })
+                )
+            })
+    }
+
     setActualPost = post => {
         this.props.setCurrentPost(post)
     }
@@ -29,8 +46,11 @@ class PostDetail extends Component {
         api.getSinglePost(postid)
             .then(currentpost => this.setState({ post: currentpost }))
         api.getPostComments(postid)
-            //TODO set the comments to the store
-            .then(data => this.setState({ comments: data}))
+            .then(data => this.props.getComments(data))
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({ comments: nextProps.comments.comments})
     }
 
     render() {
@@ -57,7 +77,7 @@ class PostDetail extends Component {
                             <div className={styles.postdetaildata}>
                             <div className={styles.postauthor}>
                                 <figure className={styles.postauthorpicture}>
-                                    <img src="https://randomuser.me/api/portraits/lego/1.jpg" alt={post.author}/>
+                                    <img src={randomPic()} alt={post.author}/>
                                     <figcaption className={styles.postauthorfigcaption}>
                                         <span>by:</span> {post.author}<br/>
                                         <span>on:</span> <Link to={`/${post.category}`}>{post.category}</Link>
@@ -71,7 +91,7 @@ class PostDetail extends Component {
 
                             <div className={styles.postcommentcount}><FontAwesome.FaCommentsO />
                                 <span>Comments</span>
-                                <span className="post-comment-count-value">{ post.commentCount }</span>
+                                <span>{ post.commentCount }</span>
                             </div>
 
                             <div className={styles.postactions}>
@@ -91,13 +111,13 @@ class PostDetail extends Component {
                                 <button
                                     className={styles.downvotebutton}
                                     disabled={this.state.isDownVoteButtonDisabled}>
-                                    <FontAwesome.FaThumbsODown/>
+                                    <FontAwesome.FaMinusCircle/>
                                 </button>
 
                                 <button
                                     className={styles.upvotebutton}
                                     disabled={this.state.isUpVoteButtonDisabled}>
-                                    <FontAwesome.FaThumbsOUp/>
+                                    <FontAwesome.FaPlusCircle/>
                                 </button>
                             </div>
                             {
@@ -121,7 +141,11 @@ class PostDetail extends Component {
                 }
                 {
                     comments && comments.length !== 0 && comments.map(comment => (
-                        <Comment key={comment.id} comment={comment}></Comment>)
+                        <Comment
+                            key={comment.id}
+                            onDeleteComment={this.deleteComment}
+                            comment={comment}>
+                        </Comment>)
                     )
                 }
             </div>
@@ -131,14 +155,17 @@ class PostDetail extends Component {
 
 const mapStateToProps = ({posts, comments}) => (
     {
-      currentpost: posts.currentpost
+      currentpost: posts.currentpost,
+      comments
     }
 )
 
 const mapDispatchToProps = dispatch => (
     {
       deleteOldPost: data => dispatch(postDeleter(data)),
-      setCurrentPost: data => dispatch(currentPost(data))
+      setCurrentPost: data => dispatch(currentPost(data)),
+      getComments: data => dispatch(commentGetter(data)),
+      deleteComment: data => dispatch(commentDeleter(data))
     }
 )
 

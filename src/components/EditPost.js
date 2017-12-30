@@ -4,12 +4,11 @@ import * as api from '../utils/api'
 import styles from './CreatePost.scss'
 import serializeForm from 'form-serialize'
 import { postEditor, currentPost } from '../actions'
-import { Redirect } from 'react-router'
+import { withRouter } from 'react-router'
 
 class EditPost extends Component {
 	state = {
-        post: {},
-        redirectToHome: false
+        post: {}
     }
 
     componentDidMount() {
@@ -30,17 +29,14 @@ class EditPost extends Component {
 
 		api.editPost(id, values).then(data => {
 			this.props.editPostData(id, data)
-		}).then(
-			this.setState({ redirectToHome: true })
-		)
+        })
+        
+        this.props.history.goBack()
 	}
 
     render() {
-        const { from } = this.props.location.state || '/'
-    	const { redirectToHome } = this.state
         const { post } = this.state
         const { categories } = this.props
-        const { goBack } = this.props.history
 
         return (
             <div>
@@ -98,18 +94,12 @@ class EditPost extends Component {
 
                     <button
                         className={styles.submitpost}
-                        onClick={() => goBack()}
+                        onClick={() => this.props.history.goBack()}
                         >
                         Cancel
                     </button>
                     </div>
                 }
-
-            {
-                redirectToHome && (
-                    <Redirect to={from || '/'}/>
-                )
-            }
             </div>
         )
     }
@@ -129,4 +119,4 @@ const mapDispatchToProps = dispatch => (
 	}
 )
 
-export default connect( mapStateToProps, mapDispatchToProps )(EditPost)
+export default withRouter(connect( mapStateToProps, mapDispatchToProps )(EditPost))

@@ -1,0 +1,71 @@
+@import './scss/mixins';
+@import './scss/variables';
+
+.componentheading {
+    color: darken($green, 5%);
+    padding-left: #{$padding}px;
+}
+
+.createcomment {
+    display: block;
+    margin: 0 auto;
+}
+
+.createcommentform {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1em;
+
+    input,
+    textarea {
+        border: solid 1px rgba(lighten($blue, 15%), 0.4);
+        border-radius: 3px;
+        box-shadow: unset;
+        margin: 0.5em 0;
+        padding: 4px;
+        width: 100%;
+    }
+
+    input[type="radio"] {
+        display: inline-block;
+        height: 15px;
+        margin-right: 10px;
+        width: 15px;
+    }
+
+    ::-webkit-input-placeholder {
+        font-weight: lighter;
+        color: rgba(lighten($black, 15%), 0.4);
+    }
+
+    ::-moz-placeholder { /* Firefox 19+ */
+        font-weight: lighter;
+        color: rgba(lighten($black, 15%), 0.4);
+    }
+
+    :-ms-input-placeholder { /* IE 10+ */
+        font-weight: lighter;
+        color: rgba(lighten($black, 15%), 0.4);
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+        font-weight: lighter;
+        color: rgba(lighten($black, 15%), 0.4);
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.commentlabel {
+    color: $blue;
+}
+
+.submitcomment {
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 10px;
+}

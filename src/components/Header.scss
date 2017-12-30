@@ -21,9 +21,9 @@
             border-bottom-color: transparent;
             border-bottom-width: 0px;
             border-bottom-style: solid;
-            width: 0%;
             transition: width 0.4s ease-out, border-bottom-color 0.4s ease-out;
             transition-delay: 0.1s, 0.1s;
+            width: 0%;
         }
 
         &:hover {
@@ -38,21 +38,25 @@
                 width: 100%;
             }
         }
-    }
 
-    .active {
-        color: $green;
-        font-weight: bold;
-    
-        &::after {
-            content: '';
-            border-bottom-color: $green;
-            border-bottom-width: 4px;
-            border-bottom-style: solid;
-            display: inline-block;
-            position: relative;
-            top: -0.6em;
-            width: 100%;
+        &:visited {
+            color: $blue;
+        }
+
+        &.active {
+            color: $green;
+            font-weight: bold;
+        
+            &::after {
+                content: '';
+                border-bottom-color: $green;
+                border-bottom-width: 4px;
+                border-bottom-style: solid;
+                display: inline-block;
+                position: relative;
+                top: -0.6em;
+                width: 100%;
+            }
         }
     }
 }

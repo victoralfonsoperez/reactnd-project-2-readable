@@ -80,8 +80,8 @@ function comments (state = {}, action) {
         case CREATE_COMMENT:
             return {
                 ...state,
-                [comment.parentId]: [
-                    ...state[comment.parentId].concat( comment )
+                comments: [
+                    ...state.comments.concat( [comment] )
                 ]
             }
         case DELETE_COMMENT:

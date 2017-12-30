@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import * as api from '../utils/api'
 import { postDeleter, currentPost } from '../actions'
 import { NavLink, Link } from 'react-router-dom'
+import randomPic from '../utils/randompic'
 
 class Post extends Component {
   state = {}
@@ -44,7 +45,7 @@ class Post extends Component {
         <div className={styles.postfooter}>
           <div className={styles.postauthor}>
             <figure className={styles.postauthorpicture}>
-              <img src="https://randomuser.me/api/portraits/lego/1.jpg" alt={post.author}/>
+              <img src={randomPic()} alt={post.author}/>
               <figcaption className={styles.postauthorfigcaption}>
                 <span>by:</span> {post.author}<br/>
                 <span>on:</span> <Link to={`/${post.category}`}>{post.category}</Link>
@@ -55,11 +56,6 @@ class Post extends Component {
           <div className={styles.postdate}><FontAwesome.FaCalendarO />
             <span className={styles.postdatevalue}>{ new Date(post.timestamp).toLocaleString() }</span>
           </div>
-        </div>
-
-        <div className={styles.postcommentcount}><FontAwesome.FaCommentsO />
-          <span>Comments</span>
-          <span className="post-comment-count-value">{ post.commentCount }</span>
         </div>
 
         <div className={styles.postactions}>
@@ -79,13 +75,13 @@ class Post extends Component {
           <button
             className={styles.downvotebutton}
             disabled={this.state.isDownVoteButtonDisabled}>
-            <FontAwesome.FaThumbsODown/>
+            <FontAwesome.FaMinusCircle/>
           </button>
 
           <button
             className={styles.upvotebutton}
             disabled={this.state.isUpVoteButtonDisabled}>
-            <FontAwesome.FaThumbsOUp/>
+            <FontAwesome.FaPlusCircle/>
           </button>
 
           <NavLink

@@ -3,14 +3,13 @@ import serializeForm from 'form-serialize'
 import uuidv1 from 'uuid/v1'
 import * as api from '../utils/api'
 import styles from './CreateComment.scss'
-import { Redirect } from 'react-router'
+import {  withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { commentCreator } from '../actions'
 
 class CreateComment extends Component {
 
     state = {
-		redirectToHome: false
     }
     
     submitData = e => {
@@ -23,24 +22,27 @@ class CreateComment extends Component {
 
 		api.commentPost(values).then(data => {
 			this.props.createNewComment(data)
-		}).then(
-			this.setState({ redirectToHome: true })
-        )
+		})
         
-        //this.props.history.goBack()
+        this.props.history.goBack()
     }
 
     render() {
 
-        const { from } = this.props.location.state || '/'
-        const { redirectToHome } = this.state
-
         return (
             <div className={styles.createcomment}>
+                <h2 className={styles.componentheading}>Create new comment</h2>
 				<form onSubmit={this.submitData} className={styles.createcommentform}>
 					<input className={styles.hidden} type="text" readOnly name="id" value={uuidv1()}></input>
 					<input className={styles.hidden} type="number" readOnly name="timestamp" value={Date.now()}></input>
-					<label className={styles.label} htmlFor="title">Title</label>
+                    <label className={styles.commentlabel} htmlFor="author">Author</label>
+					<input
+						id="author"
+						name="author"
+						placeholder="Post author"
+						type="text"
+						required
+					/>
 					<label className={styles.commentlabel} htmlFor="body">Body</label>
 					<textarea
 						cols="50"
@@ -51,21 +53,8 @@ class CreateComment extends Component {
 						required
 						>
 					</textarea>
-					<label className={styles.label} htmlFor="author">Author</label>
-					<input
-						id="author"
-						name="author"
-						placeholder="Post author"
-						type="text"
-						required
-					/>
-					<button className={styles.submitpost}>Submit</button>
+					<button className={styles.submitcomment}>Submit</button>
 				</form>
-				{
-					redirectToHome && (
-						<Redirect to={from || '/'}/>
-					)
-				}
             </div>
         )
     }
@@ -85,4 +74,4 @@ const mapDispatchToProps = dispatch => (
 	}
 )
 
-export default connect(mapStateToProps, mapDispatchToProps) (CreateComment)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps) (CreateComment))

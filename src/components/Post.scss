@@ -69,21 +69,27 @@
 }
 
 .postauthor {
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px 0px rgba(lighten($black, 10%), 0.25);
     display: inline-block;
     width: 42px;
 }
 
-.postauthorpicture, .postauthorpicture img {
+.postauthorpicture img {
     border-radius: 50%;
-    height: 40px;
-    width: 40px;
+    height: auto;
+    width: 40px; 
 }
 
 .postauthorpicture {
     align-items: center;
     border: solid 2px lighten($green, 10%);
+    border-radius: 50%;
     display: flex;
+    height: 40px;
     margin: 0;
+    overflow: hidden;
+    width: 40px;
 }
 
 .postauthorfigcaption {
@@ -100,8 +106,8 @@
 
 .postdate {
     display: flex;
-    justify-content: flex-end;
     flex-basis: calc(100% - 42px);
+    justify-content: flex-end;
 }
 
 .postdatevalue {
@@ -146,6 +152,7 @@
     @include desktop {
         justify-content: flex-end;
         font-size: 18px;
+        padding-right: 0;
     }
 
     button {
@@ -169,6 +176,7 @@
 .editbutton,
 .commentbutton {
     color: darken($blue, 15%);
+    padding: 0 7px;
 }
 
 .upvotebutton {

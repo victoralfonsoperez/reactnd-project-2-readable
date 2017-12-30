@@ -1,8 +1,8 @@
 @import './scss/variables';
 
 .createpost {
-    padding: 20px;
     margin: 0 auto;
+    padding: #{$padding}px;
     max-width: 800px;
 }
 
@@ -25,29 +25,29 @@
 
     input[type="radio"] {
         display: inline-block;
-        margin-right: 10px;
         height: 15px;
+        margin-right: 10px;
         width: 15px;
     }
 
     ::-webkit-input-placeholder {
-        font-weight: lighter;
         color: rgba(lighten($black, 15%), 0.4);
+        font-weight: lighter;
     }
 
     ::-moz-placeholder { /* Firefox 19+ */
-        font-weight: lighter;
         color: rgba(lighten($black, 15%), 0.4);
+        font-weight: lighter;
     }
 
     :-ms-input-placeholder { /* IE 10+ */
-        font-weight: lighter;
         color: rgba(lighten($black, 15%), 0.4);
+        font-weight: lighter;
     }
 
     :-moz-placeholder { /* Firefox 18- */
-        font-weight: lighter;
         color: rgba(lighten($black, 15%), 0.4);
+        font-weight: lighter;
     }
 }
 
@@ -63,7 +63,6 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
     justify-content: space-between;
     text-transform: capitalize;
 }
@@ -81,6 +80,6 @@
 
 .submitpost {
     border-radius: 4px;
-    margin: 10px 0;
-    padding: 10px;
+    margin: #{$margin / 2}px 0;
+    padding: #{$padding / 2}px;
 }

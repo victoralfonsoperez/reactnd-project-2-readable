@@ -23,6 +23,8 @@
 .postdetailtitle {
     color: $blue;
     flex-basis: 90%;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .postdetailhead {
@@ -101,11 +103,16 @@
     margin: 0;
 
     img {
-        border: solid 2px lighten($green, 10%);
+        border: solid 2px darken($yellow, 10%);
         flex-basis: 42px;
         border-radius: 50%;
-        height: 40px;
+        height: auto;
         width: 40px;
+
+        @include desktop {
+            height: auto;
+            width: 65px;
+        }
     }
 }
 
@@ -119,9 +126,10 @@
 
     @include tablet {
         span {
-            color: $black;
+            color: lighten($black, 5%);
             font-weight: lighter;
             margin-right: #{$margin / 2}px;
+            text-transform: uppercase;
     
             &:not(:first-child) {
                 margin-left: #{$margin / 2}px;
@@ -131,9 +139,10 @@
 
     @include desktop {
         span {
-            color: $black;
+            color: lighten($black, 5%);
             font-weight: lighter;
             margin-right: #{$margin / 2}px;
+            text-transform: uppercase;
     
             &:not(:first-child) {
                 margin-left: #{$margin / 2}px;
@@ -144,8 +153,8 @@
 
 .postdate {
     display: flex;
-    justify-content: flex-end;
     flex-basis: 65%;
+    justify-content: flex-end;
 }
 
 .postdatevalue {
@@ -208,7 +217,7 @@
 }
 
 .upvotebutton {
-    color: darken($green, 15%);
+    color: darken($green, 3%);
 }
 
 .createpostlink {

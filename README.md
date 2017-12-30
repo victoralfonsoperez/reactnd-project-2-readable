@@ -9,11 +9,14 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 * Project Description
 * Getting started
+* User pictures
 
 ## Project description
 This is a post and comment SPA, developed using [react](https://github.com/facebook/react/) and [redux](https://redux.js.org/).
 
-## GETTING STARTED
+
+
+## Getting Started
 
 Clone this [repository](https://github.com/udacity/reactnd-project-readable-starter)
 
@@ -32,3 +35,6 @@ Then in other terminal window:
 * `yarn`
 * `yarn start`
 
+### User Pictures
+
+user pictures used from [randomuser](https://randomuser.me/photos)

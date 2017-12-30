@@ -52,6 +52,19 @@
     height: 42px;
     margin-right: 10px;
     width: 42px;
+
+    figure {
+        border-radius: 50%;
+        height: 42px;
+        margin: 0;
+        overflow: hidden;
+        width: 42px;
+    }
+}
+
+.authorimage {
+    height: auto;
+    width: 42px;
 }
 
 .commentvotescore {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styles from './App.scss'
 import * as api from '../utils/api'
 import { Route, withRouter, Switch } from 'react-router-dom'
-import { postDeleter, getAllPosts, getAllCategories, currentPost, commentGetter } from '../actions'
+import { postDeleter, getAllPosts, getAllCategories, currentPost } from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
 import CreatePost from '../components/CreatePost'
@@ -37,8 +37,6 @@ class App extends Component {
     //fetch the currentpost data, given in the url, when the page gets refreshed
     api.getSinglePost(postid)
       .then(data => this.props.setCurrentPost(data))
-    api.getPostComments(postid)
-      .then(data => this.props.getComments(data))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -80,8 +78,7 @@ const mapDispatchToProps = dispatch => (
     getPosts: data => dispatch(getAllPosts(data)),
     getCategories: data => dispatch(getAllCategories(data)),
     deleteOldPost: data => dispatch(postDeleter(data)),
-    setCurrentPost: data => dispatch(currentPost(data)),
-    getComments: data => dispatch(commentGetter(data))
+    setCurrentPost: data => dispatch(currentPost(data))
   }
 )
 
