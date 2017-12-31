@@ -10,7 +10,9 @@ import {
     DELETE_COMMENT,
     GET_COMMENTS,
     CURRENT_COMMENT,
-    EDIT_COMMENT
+    EDIT_COMMENT,
+    VOTE_POST,
+    VOTE_COMMENT
 } from '../actions'
 
 const initialState = {
@@ -64,6 +66,16 @@ function posts (state = initialState, action) {
                     } : currentpost)
                 ]
             }
+        case VOTE_POST:
+            return {
+                ...state,
+                posts: [
+                    ...state.posts.map(currentpost => currentpost.id === action.id.id ? {
+                        ...currentpost, title: action.id.title,
+                        voteScore: action.id.voteScore,
+                    } : currentpost)
+                ]
+            }
         default:
             return state
     }
@@ -106,6 +118,16 @@ function comments (state = {}, action) {
                     body: comment.body
                 }
             }
+        case VOTE_COMMENT:
+            return {
+                ...state,
+                comments: [
+                    ...state.comments.map(currentcomment => currentcomment.id === action.id.id ? {
+                        ...currentcomment, title: action.id.title,
+                        voteScore: action.id.voteScore,
+                    } : currentcomment)
+                ]
+            }
         default:
             return state
     }
@@ -113,5 +135,5 @@ function comments (state = {}, action) {
 
 export default combineReducers({
     posts,
-    comments,
+    comments
 })

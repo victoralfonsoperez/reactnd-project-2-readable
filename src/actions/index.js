@@ -9,6 +9,8 @@ export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const GET_COMMENTS = 'GET_COMMENTS'
 export const CURRENT_COMMENT = 'CURRENT_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
+export const VOTE_COMMENT = 'VOTE_COMMENT'
+export const VOTE_POST = 'VOTE_POST'
 
 //ACTIONS FOR POSTS
 
@@ -99,5 +101,21 @@ export const commentEditor = (id, comment) => (
         type: EDIT_COMMENT,
         id,
         comment
+    }
+)
+
+export const postVoter = (id, vote) => (
+    {
+        type: VOTE_POST,
+        id,
+        vote
+    }
+)
+
+export const commentVoter = (id, vote) => (
+    {
+        type: VOTE_COMMENT,
+        id,
+        vote
     }
 )

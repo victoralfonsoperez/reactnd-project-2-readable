@@ -28,6 +28,10 @@
 .posttitle{
     flex-basis: 90%;
     flex-shrink: 2;
+
+    &:visited {
+        color: $blue;
+    }
 }
 
 .postvote {

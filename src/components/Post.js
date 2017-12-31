@@ -3,7 +3,7 @@ import * as FontAwesome from 'react-icons/lib/fa'
 import styles from './Post.scss'
 import { connect } from 'react-redux'
 import * as api from '../utils/api'
-import { postDeleter, currentPost } from '../actions'
+import { postDeleter, currentPost, postVoter } from '../actions'
 import { NavLink, Link } from 'react-router-dom'
 import randomPic from '../utils/randompic'
 
@@ -20,8 +20,15 @@ class Post extends Component {
     this.props.setCurrentPost(post)
   }
 
+  votePost = (id, vote) => {
+    api.votePost(id, vote)
+      .then(data => this.props.votePost(data))
+  }
+
   render() {
-      const { post } = this.props
+    const { post } = this.props
+    const upVote = {option: 'upVote'}
+    const downVote = {option: 'downVote'}
 
   return (
       <div className={styles.post}>
@@ -74,21 +81,17 @@ class Post extends Component {
 
           <button
             className={styles.downvotebutton}
-            disabled={this.state.isDownVoteButtonDisabled}>
+            disabled={this.state.isDownVoteButtonDisabled}
+            onClick={() => this.votePost(post.id, downVote)}>
             <FontAwesome.FaMinusCircle/>
           </button>
 
           <button
             className={styles.upvotebutton}
-            disabled={this.state.isUpVoteButtonDisabled}>
+            disabled={this.state.isUpVoteButtonDisabled}
+            onClick={() => this.votePost(post.id, upVote)}>
             <FontAwesome.FaPlusCircle/>
           </button>
-
-          <NavLink
-            to="/comment"
-            className={styles.commentbutton}>
-            <FontAwesome.FaComment/>
-          </NavLink>
         </div>
       </div>
     )
@@ -105,7 +108,8 @@ const mapStateToProps = ({posts, comments}) => (
 const mapDispatchToProps = dispatch => (
   {
     deleteOldPost: data => dispatch(postDeleter(data)),
-    setCurrentPost: data => dispatch(currentPost(data))
+    setCurrentPost: data => dispatch(currentPost(data)),
+    votePost: data => dispatch(postVoter(data))
   }
 )
 

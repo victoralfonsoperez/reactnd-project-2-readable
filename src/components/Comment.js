@@ -9,6 +9,8 @@ class Comment extends Component {
     render() {
 
         const { comment } = this.props
+        const upVote = {option: 'upVote'}
+        const downVote = {option: 'downVote'}
 
         return (
             <div>
@@ -46,12 +48,14 @@ class Comment extends Component {
                                 </button>
 
                                 <button
-                                    className={styles.commentdownvotebutton}>
+                                    className={styles.commentdownvotebutton}
+                                    onClick={() => this.props.onVoteComment(comment.id, downVote)}>
                                     <FontAwesome.FaMinusCircle/>
                                 </button>
 
                                 <button
-                                    className={styles.commentupvotebutton}>
+                                    className={styles.commentupvotebutton}
+                                    onClick={() => this.props.onVoteComment(comment.id, upVote)}>
                                     <FontAwesome.FaPlusCircle/>
                                 </button>
                             </div>
