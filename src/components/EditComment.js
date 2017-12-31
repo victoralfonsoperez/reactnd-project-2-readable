@@ -22,7 +22,7 @@ class EditComment extends Component {
         this.setState({ comment: nextProps.comment })
     }
 
-    submitData = (e, id) => {debugger
+    submitData = (e, id) => {
 		e.preventDefault()
 
 		const values = serializeForm(e.target, { hash: true })
