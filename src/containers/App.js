@@ -22,8 +22,7 @@ class App extends Component {
 
   componentDidMount () {
     //gets the current post id from the url, then request the info to the API
-    //when the pages gets refreshed
-    //avoids returning a null value
+    //when the pages gets refreshed and avoids returning a null value
     let currentpathname = (this.props.location.pathname.match(/\w+$/) && this.props.location.pathname.match(/\w+$/)[0]) || ''
     //avoids a bad request to the api
     let postid = currentpathname !== 'create' ? currentpathname : ''

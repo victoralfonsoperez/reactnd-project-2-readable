@@ -12,7 +12,8 @@ import {
     CURRENT_COMMENT,
     EDIT_COMMENT,
     VOTE_POST,
-    VOTE_COMMENT
+    VOTE_COMMENT,
+    SORT_POSTS
 } from '../actions'
 
 const initialState = {
@@ -73,7 +74,19 @@ function posts (state = initialState, action) {
                     ...state.posts.map(currentpost => currentpost.id === action.id.id ? {
                         ...currentpost, title: action.id.title,
                         voteScore: action.id.voteScore,
+                        voted: true,
                     } : currentpost)
+                ]
+            }
+        case SORT_POSTS:
+            return {
+                ...state,
+                posts: [
+                    ...state.posts.sort(
+                        function(a, b) {
+                            return a[action.value] - b[action.value]
+                        }
+                    )
                 ]
             }
         default:
@@ -125,6 +138,7 @@ function comments (state = {}, action) {
                     ...state.comments.map(currentcomment => currentcomment.id === action.id.id ? {
                         ...currentcomment, title: action.id.title,
                         voteScore: action.id.voteScore,
+                        voted: true,
                     } : currentcomment)
                 ]
             }

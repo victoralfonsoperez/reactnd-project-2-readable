@@ -5,11 +5,10 @@ import uuidv1 from 'uuid/v1'
 import * as api from '../utils/api'
 import styles from './CreatePost.scss'
 import { postCreator } from '../actions'
-import { Redirect } from 'react-router'
+import { withRouter } from 'react-router'
 
 class CreatePost extends Component {
 	state = {
-		redirectToHome: false
 	}
     
     componentDidMount() {
@@ -36,15 +35,13 @@ class CreatePost extends Component {
 
 		api.createPost(values).then(data => {
 			this.props.createNewPost(data)
-		}).then(
-			this.setState({ redirectToHome: true })
-		)
+		})
+		
+		this.props.history.goBack()
 	}
 
     render() {
 
-		const { from } = this.props.location.state || '/'
-		const { redirectToHome } = this.state
 		const { categories } = this.props
 
         return (
@@ -91,11 +88,6 @@ class CreatePost extends Component {
 					</div>
 					<button className={styles.submitpost}>Submit</button>
 				</form>
-				{
-					redirectToHome && (
-						<Redirect to={from || '/'}/>
-					)
-				}
             </div>
         )
     }
@@ -113,4 +105,4 @@ const mapDispatchToProps = dispatch => (
 	}
 )
 
-export default connect( mapStateToProps, mapDispatchToProps )(CreatePost)
+export default withRouter(connect( mapStateToProps, mapDispatchToProps )(CreatePost))

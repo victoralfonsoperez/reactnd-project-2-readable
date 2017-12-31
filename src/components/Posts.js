@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styles from './Posts.scss'
 import { connect } from 'react-redux'
 import Post from './Post'
+import { sorter } from '../actions'
 
 class Posts extends Component {
     state = {
@@ -23,6 +24,11 @@ class Posts extends Component {
         this.setState({ currentpost: nextProps.currentpost })
     }
 
+    handleCHange = e => {
+        const { target } = e
+        this.props.sortPosts(target.value)
+    }
+
     render () {
         this.props.history.listen(location => {
             //updates the currentCategory state each time the route gets updated
@@ -33,6 +39,18 @@ class Posts extends Component {
 
         return (
             <div className={ styles.postscontainer }>
+
+                {
+                    currentCategory === "" && posts && (
+                        <div className={styles.sorter}>
+                            <select onChange={this.handleCHange}>
+                                <option value="timestamp">Sort by date</option>
+                                <option value="voteScore">Sort by votes</option>
+                            </select>
+                        </div>
+                    )
+                }
+
                 {
                     currentCategory !== "" && posts && posts.filter(post => post.category === currentCategory).map(post => (
                         <Post key={ post.id } post={ post }></Post>
@@ -56,4 +74,10 @@ const mapStateToProps = ({posts, comments}) => (
     }
 )
 
-export default connect( mapStateToProps )(Posts)
+const mapDispatchToProps = dispatch => (
+    {
+        sortPosts: data => dispatch(sorter(data))
+    }
+)
+
+export default connect( mapStateToProps, mapDispatchToProps )(Posts)

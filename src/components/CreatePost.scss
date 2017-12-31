@@ -83,3 +83,11 @@
     margin: #{$margin / 2}px 0;
     padding: #{$padding / 2}px;
 }
+
+.cancel {
+    background-color: $red;
+    border-radius: 4px;
+    color: $white;
+    margin: 1em;
+    padding: #{$padding / 2}px;
+}

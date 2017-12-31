@@ -93,7 +93,7 @@ class EditPost extends Component {
                     </form>
 
                     <button
-                        className={styles.submitpost}
+                        className={styles.cancel}
                         onClick={() => this.props.history.goBack()}
                         >
                         Cancel

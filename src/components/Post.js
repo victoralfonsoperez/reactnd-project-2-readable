@@ -81,14 +81,14 @@ class Post extends Component {
 
           <button
             className={styles.downvotebutton}
-            disabled={this.state.isDownVoteButtonDisabled}
+            disabled={post.voted}
             onClick={() => this.votePost(post.id, downVote)}>
             <FontAwesome.FaMinusCircle/>
           </button>
 
           <button
             className={styles.upvotebutton}
-            disabled={this.state.isUpVoteButtonDisabled}
+            disabled={post.voted}
             onClick={() => this.votePost(post.id, upVote)}>
             <FontAwesome.FaPlusCircle/>
           </button>
@@ -109,7 +109,8 @@ const mapDispatchToProps = dispatch => (
   {
     deleteOldPost: data => dispatch(postDeleter(data)),
     setCurrentPost: data => dispatch(currentPost(data)),
-    votePost: data => dispatch(postVoter(data))
+    votePost: data => dispatch(postVoter(data)),
+    
   }
 )
 

@@ -11,6 +11,7 @@ export const CURRENT_COMMENT = 'CURRENT_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const VOTE_COMMENT = 'VOTE_COMMENT'
 export const VOTE_POST = 'VOTE_POST'
+export const SORT_POSTS = 'SORT_POSTS'
 
 //ACTIONS FOR POSTS
 
@@ -117,5 +118,12 @@ export const commentVoter = (id, vote) => (
         type: VOTE_COMMENT,
         id,
         vote
+    }
+)
+
+export const sorter = value => (
+    {
+        type: SORT_POSTS,
+        value
     }
 )

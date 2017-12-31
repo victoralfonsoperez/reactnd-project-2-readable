@@ -167,6 +167,11 @@
 .upvotebutton,
 .commentbutton {
     cursor: pointer;
+
+    &:disabled {
+        color: rgba(lighten($black, 5%), 0.3);
+        cursor: initial;
+    }
 }
 
 .deletebutton,
