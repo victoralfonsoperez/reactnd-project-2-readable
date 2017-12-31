@@ -4,7 +4,7 @@ import styles from './PostDetail.scss'
 import { connect } from 'react-redux'
 import * as api from '../utils/api'
 import { NavLink, Link, Redirect } from 'react-router-dom'
-import { postDeleter, currentPost, commentGetter , commentDeleter} from '../actions'
+import { postDeleter, currentPost, commentGetter , commentDeleter, currentComment } from '../actions'
 import Comment from './Comment'
 import randomPic from '../utils/randompic'
 
@@ -19,6 +19,10 @@ class PostDetail extends Component {
         api.deletePost(id)
             .then(data => {this.props.deleteOldPost(data.id)})
             .then(data => this.setState({ redirectToHome: true }))
+    }
+
+    currentComment = comment => {
+        this.props.setCurrentComment(comment)
     }
 
     deleteComment = id => {
@@ -144,6 +148,7 @@ class PostDetail extends Component {
                         <Comment
                             key={comment.id}
                             onDeleteComment={this.deleteComment}
+                            onSelectComment={this.currentComment}
                             comment={comment}>
                         </Comment>)
                     )
@@ -165,7 +170,8 @@ const mapDispatchToProps = dispatch => (
       deleteOldPost: data => dispatch(postDeleter(data)),
       setCurrentPost: data => dispatch(currentPost(data)),
       getComments: data => dispatch(commentGetter(data)),
-      deleteComment: data => dispatch(commentDeleter(data))
+      deleteComment: data => dispatch(commentDeleter(data)),
+      setCurrentComment: data => dispatch(currentComment(data))
     }
 )
 

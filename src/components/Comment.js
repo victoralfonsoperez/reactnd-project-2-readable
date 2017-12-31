@@ -35,7 +35,7 @@ class Comment extends Component {
                                 <NavLink
                                     to={`/editcomment/${comment.id}`}
                                     className={styles.commenteditbutton}
-                                    onClick={() => {}}>
+                                    onClick={() => {this.props.onSelectComment(comment)}}>
                                     <FontAwesome.FaEdit/>
                                 </NavLink>
 
@@ -62,7 +62,5 @@ class Comment extends Component {
         )
     }
 }
-
-
 
 export default Comment

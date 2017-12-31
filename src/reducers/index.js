@@ -8,7 +8,9 @@ import {
     EDIT_POST,
     CREATE_COMMENT,
     DELETE_COMMENT,
-    GET_COMMENTS
+    GET_COMMENTS,
+    CURRENT_COMMENT,
+    EDIT_COMMENT
 } from '../actions'
 
 const initialState = {
@@ -90,6 +92,19 @@ function comments (state = {}, action) {
                 comments: [ 
                     ...state.comments.filter(comment => comment.id !== id)
                 ]
+            }
+        case CURRENT_COMMENT:
+            return {
+                ...state,
+                currentcomment: comment
+            }
+        case EDIT_COMMENT:
+            return {
+                ...state,
+                currentcomment: {
+                    ...state.currentcomment,
+                    body: comment.body
+                }
             }
         default:
             return state

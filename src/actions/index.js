@@ -7,6 +7,8 @@ export const CURRENT_POST = 'CURRENT_POST'
 export const CREATE_COMMENT = 'CREATE_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const GET_COMMENTS = 'GET_COMMENTS'
+export const CURRENT_COMMENT = 'CURRENT_COMMENT'
+export const EDIT_COMMENT = 'EDIT_COMMENT'
 
 //ACTIONS FOR POSTS
 
@@ -60,6 +62,13 @@ export const currentPost = post => (
 
 //ACTIONS FOR COMMENTS
 
+export const currentComment = comment => (
+    {
+        type: CURRENT_COMMENT,
+        comment
+    }
+)
+
 //action creator to create an action to create a comment
 export const commentGetter = comments => (
     {
@@ -81,5 +90,14 @@ export const commentDeleter = id => (
     {
         type: DELETE_COMMENT,
         id
+    }
+)
+
+//comment editor
+export const commentEditor = (id, comment) => (
+    {
+        type: EDIT_COMMENT,
+        id,
+        comment
     }
 )

@@ -10,6 +10,7 @@ import CreatePost from '../components/CreatePost'
 import EditPost from '../components/EditPost'
 import PostDetail from '../components/PostDetail'
 import CreateComment from '../components/CreateComment'
+import EditComment from '../components/EditComment'
 
 class App extends Component {
   state = {
@@ -60,6 +61,7 @@ class App extends Component {
               component={PostDetail}/>
           }
           <CreateComment path="/newcomment"></CreateComment>
+          <EditComment path="/editcomment/"></EditComment>
         </Switch>
       </div>
     )
