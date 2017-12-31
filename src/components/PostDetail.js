@@ -3,22 +3,21 @@ import * as FontAwesome from 'react-icons/lib/fa'
 import styles from './PostDetail.scss'
 import { connect } from 'react-redux'
 import * as api from '../utils/api'
-import { NavLink, Link, Redirect } from 'react-router-dom'
-import { postDeleter, currentPost, commentGetter , commentDeleter, currentComment, commentVoter } from '../actions'
+import { NavLink, Link, withRouter } from 'react-router-dom'
+import { postDeleter, currentPost, commentGetter , commentDeleter, currentComment, commentVoter, postVote } from '../actions'
 import Comment from './Comment'
 import randomPic from '../utils/randompic'
 
 class PostDetail extends Component {
     state = {
         post: {},
-        comments: [],
-        redirectToHome: false
+        comments: []
     }
 
     deletePost = id => {
         api.deletePost(id)
             .then(data => {this.props.deleteOldPost(data.id)})
-            .then(data => this.setState({ redirectToHome: true }))
+        this.props.history.goBack()
     }
 
     currentComment = comment => {
@@ -46,6 +45,22 @@ class PostDetail extends Component {
             .then(data => this.props.voteComment(data))
     }
 
+    votePost = (id, vote) => {
+        api.votePost(id, vote)
+          .then(data => this.props.votePost(data))
+          .then(data => {
+            this.setState(prevState => ({
+                    ...prevState,
+                    post: {
+                        ...prevState.post,
+                        voteScore: data.id.voteScore,
+                        voted: true
+                    }
+                })
+            )
+        })
+      }
+
     setActualPost = post => {
         this.props.setCurrentPost(post)
     }
@@ -64,8 +79,9 @@ class PostDetail extends Component {
 
     render() {
 
-        const { from } = this.props.location.state || '/'
-        const { post, redirectToHome, comments } = this.state
+        const { post, comments } = this.state
+        const upVote = {option: 'upVote'}
+        const downVote = {option: 'downVote'}
 
         return (
             <div>
@@ -119,21 +135,18 @@ class PostDetail extends Component {
 
                                 <button
                                     className={styles.downvotebutton}
-                                    disabled={this.state.isDownVoteButtonDisabled}>
+                                    disabled={post.voted}
+                                    onClick={() => this.votePost(post.id, downVote)}>
                                     <FontAwesome.FaMinusCircle/>
                                 </button>
 
                                 <button
                                     className={styles.upvotebutton}
-                                    disabled={this.state.isUpVoteButtonDisabled}>
+                                    disabled={post.voted}
+                                    onClick={() => this.votePost(post.id, upVote)}>
                                     <FontAwesome.FaPlusCircle/>
                                 </button>
                             </div>
-                            {
-                                redirectToHome && (
-                                    <Redirect to={from || '/'}/>
-                                )
-                            }
                         </div>
                     </div>
                 }
@@ -178,8 +191,9 @@ const mapDispatchToProps = dispatch => (
       getComments: data => dispatch(commentGetter(data)),
       deleteComment: data => dispatch(commentDeleter(data)),
       setCurrentComment: data => dispatch(currentComment(data)),
-      voteComment: data => dispatch(commentVoter(data))
+      voteComment: data => dispatch(commentVoter(data)),
+      votePost: data => dispatch(postVote(data)),
     }
 )
 
-export default connect( mapStateToProps, mapDispatchToProps )(PostDetail)
+export default withRouter(connect( mapStateToProps, mapDispatchToProps )(PostDetail))

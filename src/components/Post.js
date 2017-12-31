@@ -109,8 +109,7 @@ const mapDispatchToProps = dispatch => (
   {
     deleteOldPost: data => dispatch(postDeleter(data)),
     setCurrentPost: data => dispatch(currentPost(data)),
-    votePost: data => dispatch(postVoter(data)),
-    
+    votePost: data => dispatch(postVoter(data))
   }
 )
 

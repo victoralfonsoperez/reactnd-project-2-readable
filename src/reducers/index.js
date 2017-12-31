@@ -12,6 +12,7 @@ import {
     CURRENT_COMMENT,
     EDIT_COMMENT,
     VOTE_POST,
+    VOTE_CURRENT_POST,
     VOTE_COMMENT,
     SORT_POSTS
 } from '../actions'
@@ -77,6 +78,15 @@ function posts (state = initialState, action) {
                         voted: true,
                     } : currentpost)
                 ]
+            }
+        case VOTE_CURRENT_POST:
+            return {
+                ...state,
+                currentpost: {
+                        ...state.currentpost,
+                        voteScore: action.id.voteScore,
+                        voted: true,
+                    }
             }
         case SORT_POSTS:
             return {
