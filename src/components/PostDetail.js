@@ -43,6 +43,17 @@ class PostDetail extends Component {
     voteComment = (id, vote) => {
         api.voteComment(id, vote)
             .then(data => this.props.voteComment(data))
+            .then(data => {
+                this.setState(prevState => ({
+                        ...prevState,
+                        post: {
+                            ...prevState.comment,
+                            voteScore: data.id.voteScore,
+                            voted: true
+                        }
+                    })
+                )
+            })
     }
 
     votePost = (id, vote) => {

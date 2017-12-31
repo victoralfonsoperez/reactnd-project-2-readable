@@ -22,7 +22,7 @@ class EditComment extends Component {
         this.setState({ comment: nextProps.comment })
     }
 
-    submitData = (e, id) => {
+    submitData = (e, id) => {debugger
 		e.preventDefault()
 
 		const values = serializeForm(e.target, { hash: true })
@@ -42,7 +42,6 @@ class EditComment extends Component {
             <div className={styles.createcomment}>
                 <h2 className={styles.componentheading}>Edit comment</h2>
 				<form onSubmit={(e) => this.submitData(e, comment.id)} className={styles.createcommentform}>
-					<input className={styles.hidden} type="number" readOnly name="timestamp" value={Date.now()}></input>
 					<label className={styles.commentlabel} htmlFor="body">Body</label>
 					<textarea
 						cols="50"
@@ -52,6 +51,7 @@ class EditComment extends Component {
 						placeholder="Please enter the post body"
 						rows="4"
 						required
+                        key={ comment.body }
 						>
 					</textarea>
 					<button className={styles.submitcomment}>Submit</button>

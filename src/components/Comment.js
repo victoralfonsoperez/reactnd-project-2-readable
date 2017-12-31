@@ -49,12 +49,14 @@ class Comment extends Component {
 
                                 <button
                                     className={styles.commentdownvotebutton}
+                                    disabled={comment.voted}
                                     onClick={() => this.props.onVoteComment(comment.id, downVote)}>
                                     <FontAwesome.FaMinusCircle/>
                                 </button>
 
                                 <button
                                     className={styles.commentupvotebutton}
+                                    disabled={comment.voted}
                                     onClick={() => this.props.onVoteComment(comment.id, upVote)}>
                                     <FontAwesome.FaPlusCircle/>
                                 </button>
