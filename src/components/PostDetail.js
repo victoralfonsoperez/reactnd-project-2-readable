@@ -4,9 +4,10 @@ import styles from './PostDetail.scss'
 import { connect } from 'react-redux'
 import * as api from '../utils/api'
 import { NavLink, Link, withRouter } from 'react-router-dom'
-import { postDeleter, currentPost, commentGetter , commentDeleter, currentComment, commentVoter, postVote } from '../actions'
+import * as actions from '../actions'
 import Comment from './Comment'
 import randomPic from '../utils/randompic'
+import { bindActionCreators } from 'redux'
 
 class PostDetail extends Component {
     state = {
@@ -16,17 +17,18 @@ class PostDetail extends Component {
 
     deletePost = id => {
         api.deletePost(id)
-            .then(data => {this.props.deleteOldPost(data.id)})
+            .then(data => {this.props.postDeleter(data.id)})
+
         this.props.history.goBack()
     }
 
     currentComment = comment => {
-        this.props.setCurrentComment(comment)
+        this.props.currentComment(comment)
     }
 
     deleteComment = id => {
         api.deleteComment(id)
-            .then(data => this.props.deleteComment(data.id))
+            .then(data => this.props.commentDeleter(data.id))
             //updates the currentpost commentCount each time a comment is deleted
             .then(data => {
                 this.setState(prevState => ({
@@ -42,7 +44,7 @@ class PostDetail extends Component {
 
     voteComment = (id, vote) => {
         api.voteComment(id, vote)
-            .then(data => this.props.voteComment(data))
+            .then(data => this.props.commentVoter(data))
             .then(data => {
                 this.setState(prevState => ({
                         ...prevState,
@@ -58,7 +60,7 @@ class PostDetail extends Component {
 
     votePost = (id, vote) => {
         api.votePost(id, vote)
-          .then(data => this.props.votePost(data))
+          .then(data => this.props.postVote(data))
           .then(data => {
             this.setState(prevState => ({
                     ...prevState,
@@ -73,19 +75,22 @@ class PostDetail extends Component {
       }
 
     setActualPost = post => {
-        this.props.setCurrentPost(post)
+        this.props.currentPost(post)
     }
 
     componentDidMount() {
         const postid = this.props.location.pathname.match(/\w+$/)[0]
-        api.getSinglePost(postid)
-            .then(currentpost => this.setState({ post: currentpost }))
+
+        this.props.fetchPost(postid)
+            .then(currentpost => this.setState({ post: currentpost.post }))
+
         api.getPostComments(postid)
-            .then(data => this.props.getComments(data))
+            .then(data => this.props.commentGetter(data))
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ comments: nextProps.comments.comments})
+        this.setState({ comments: nextProps.comments})
+        this.setState({ currentpost: nextProps.currentpost})
     }
 
     render() {
@@ -170,12 +175,12 @@ class PostDetail extends Component {
                     )
                 }
                 {
-                    comments && comments.length !== 0 && (
+                    post && comments && comments.length !== 0 && (
                         <h2 className={styles.commentheading}>COMMENTS</h2>
                     )
                 }
                 {
-                    comments && comments.length !== 0 && comments.map(comment => (
+                    post && comments && comments.length !== 0 && comments.map(comment => (
                         <Comment
                             key={comment.id}
                             onDeleteComment={this.deleteComment}
@@ -183,6 +188,17 @@ class PostDetail extends Component {
                             onVoteComment={this.voteComment}
                             comment={comment}>
                         </Comment>)
+                    )
+                }
+                {
+                    this.state.currentpost === null && (
+                        <div>
+                            <h3>Sorry, the requested post does not exist, but you can create one</h3>
+                            <Link
+                                className={styles.createpostlink}
+                                to="/create">Create post
+                            </Link>
+                        </div>
                     )
                 }
             </div>
@@ -193,21 +209,13 @@ class PostDetail extends Component {
 const mapStateToProps = ({posts, comments, categories }) => (
     {
       currentpost: posts.currentpost,
-      comments,
+      comments: comments.comments,
       categories
     }
 )
 
 const mapDispatchToProps = dispatch => (
-    {
-      deleteOldPost: data => dispatch(postDeleter(data)),
-      setCurrentPost: data => dispatch(currentPost(data)),
-      getComments: data => dispatch(commentGetter(data)),
-      deleteComment: data => dispatch(commentDeleter(data)),
-      setCurrentComment: data => dispatch(currentComment(data)),
-      voteComment: data => dispatch(commentVoter(data)),
-      votePost: data => dispatch(postVote(data)),
-    }
+	bindActionCreators(actions, dispatch)
 )
 
 export default withRouter(connect( mapStateToProps, mapDispatchToProps )(PostDetail))

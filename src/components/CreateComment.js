@@ -5,7 +5,8 @@ import * as api from '../utils/api'
 import styles from './CreateComment.scss'
 import {  withRouter } from 'react-router'
 import { connect } from 'react-redux'
-import { commentCreator } from '../actions'
+import * as actions from '../actions/comments'
+import { bindActionCreators } from 'redux'
 
 class CreateComment extends Component {
 
@@ -21,9 +22,9 @@ class CreateComment extends Component {
         values.parentId = this.props.location.pathname.match(/\w+$/)[0]
 
 		api.commentPost(values).then(data => {
-			this.props.createNewComment(data)
+			this.props.commentCreator(data)
 		})
-        
+
         this.props.history.goBack()
     }
 
@@ -69,9 +70,7 @@ const mapStateToProps = ({posts, comments, currentpost}) => (
 )
 
 const mapDispatchToProps = dispatch => (
-	{
-        createNewComment: data => dispatch(commentCreator(data))
-	}
+	bindActionCreators(actions, dispatch)
 )
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps) (CreateComment))

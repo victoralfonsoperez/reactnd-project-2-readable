@@ -15,7 +15,7 @@ class Comment extends Component {
         return (
             <div>
                 {
-                    comment && (
+                    comment && comment.parentDeleted !== true && (
                         <div className={styles.comment}>
                             <div className={styles.commenthead}>
                                 <div className={styles.commentauthorpicture}>

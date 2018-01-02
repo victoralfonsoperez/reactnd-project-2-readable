@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styles from './App.scss'
-import * as api from '../utils/api'
 import { Route, withRouter, Switch } from 'react-router-dom'
-import { postDeleter, getAllPosts, getAllCategories, currentPost, setCurrentCategory } from '../actions'
+import * as actions from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
 import CreatePost from '../components/CreatePost'
@@ -11,6 +10,7 @@ import EditPost from '../components/EditPost'
 import PostDetail from '../components/PostDetail'
 import CreateComment from '../components/CreateComment'
 import EditComment from '../components/EditComment'
+import { bindActionCreators } from 'redux'
 
 class App extends Component {
   state = {
@@ -28,18 +28,14 @@ class App extends Component {
     const postid = currentpathname !== 'create' ? currentpathname : ''
     // eslint-disable-next-line
     const currentcat = this.props.location.pathname.replace(/^\/([^\/]*).*$/, '$1')
-    //fetching all the available posts from the api, then updating the store
-    api.getPosts()
-      .then(posts => this.setState({ posts }))
-      .then(data => this.props.getPosts(this.state.posts))
+    //fetching all the available posts from the api, then updating the store trough thunk
+    this.props.fetchPosts()
     //fetching all the available categories from the api, then updating the store
-    api.getCategories()
-      .then(categories => this.setState({ categories }))
-      .then(data => this.props.getCategories(this.state.categories))
-      .then(this.props.setCurrentCat(currentcat))
+    this.props.fetchCategories(currentcat)
+      .then(categories => this.setState({ categories: categories.categories }))
     //fetch the currentpost data, given in the url, when the page gets refreshed
-    api.getSinglePost(postid)
-      .then(data => this.props.setCurrentPost(data))
+    this.props.fetchPost(postid)
+      .then(currentpost => this.setState({ post: currentpost.post }))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,22 +66,17 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({posts, comments, categories}) => (
+const mapStateToProps = ({posts, comments, categories, currentpost}) => (
   {
     posts,
     comments,
-    categories
+    categories,
+    currentpost
   }
 )
 
 const mapDispatchToProps = dispatch => (
-  {
-    getPosts: data => dispatch(getAllPosts(data)),
-    getCategories: data => dispatch(getAllCategories(data)),
-    deleteOldPost: data => dispatch(postDeleter(data)),
-    setCurrentPost: data => dispatch(currentPost(data)),
-    setCurrentCat: data => dispatch(setCurrentCategory(data))
-  }
+	bindActionCreators(actions, dispatch)
 )
 
 export default withRouter(connect( mapStateToProps, mapDispatchToProps )(App))

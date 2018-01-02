@@ -1,3 +1,4 @@
+import * as api from '../utils/api'
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
 export const CURRENT_CATEGORY = 'CURRENT_CATEGORY'
 
@@ -17,4 +18,12 @@ export const setCurrentCategory = category => (
         type: CURRENT_CATEGORY,
         category
     }
+)
+
+
+export const fetchCategories = currentcat => dispatch => (
+    api
+        .getCategories()
+        .then(categories => dispatch(getAllCategories(categories)))
+        .then(dispatch(setCurrentCategory(currentcat)))
 )

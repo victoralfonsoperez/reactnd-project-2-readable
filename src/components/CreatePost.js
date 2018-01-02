@@ -4,7 +4,8 @@ import serializeForm from 'form-serialize'
 import uuidv1 from 'uuid/v1'
 import * as api from '../utils/api'
 import styles from './CreatePost.scss'
-import { postCreator } from '../actions'
+import * as actions from '../actions'
+import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
 
 class CreatePost extends Component {
@@ -34,7 +35,7 @@ class CreatePost extends Component {
 		values.commentCount = 0
 
 		api.createPost(values).then(data => {
-			this.props.createNewPost(data)
+			this.props.postCreator(data)
 		})
 		
 		this.props.history.goBack()
@@ -100,9 +101,7 @@ const mapStateToProps = ({posts, comments, categories}) => (
 )
 
 const mapDispatchToProps = dispatch => (
-	{
-		createNewPost: data => dispatch(postCreator(data))
-	}
+	bindActionCreators(actions, dispatch)
 )
 
 export default withRouter(connect( mapStateToProps, mapDispatchToProps )(CreatePost))

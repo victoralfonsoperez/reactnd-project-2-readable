@@ -1,3 +1,4 @@
+import * as api from '../utils/api'
 export const GET_ALL_POSTS = 'GET_ALL_POSTS'
 export const CREATE_POST = 'CREATE_POST'
 export const DELETE_POST = 'DELETE_POST'
@@ -72,4 +73,19 @@ export const postVote = (id, vote) => (
         id,
         vote
     }
+)
+
+//thunk to fetch all posts
+export const fetchPosts = () => dispatch => (
+    api
+        .getPosts()
+        .then(posts => dispatch(getAllPosts(posts)))
+)
+
+//thunk to fetch a single post
+export const fetchPost = id => dispatch => (
+    api
+        .getSinglePost(id)
+        .then(post => dispatch(currentPost(Object.keys(post).length !== 0 ? post : null)))
+        .catch(dispatch(currentPost(null)))
 )
