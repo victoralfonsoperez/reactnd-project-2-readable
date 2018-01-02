@@ -161,10 +161,14 @@ class PostDetail extends Component {
                         </div>
                     </div>
                 }
-                <Link
-                    className={styles.createpostlink}
-                    to={`/newcomment/${post.id}`}>Create comment
-                </Link>
+                {
+                    post && (
+                        <Link
+                            className={styles.createpostlink}
+                            to={`/newcomment/${post.id}`}>Create comment
+                        </Link>
+                    )
+                }
                 {
                     comments && comments.length !== 0 && (
                         <h2 className={styles.commentheading}>COMMENTS</h2>

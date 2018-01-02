@@ -40,22 +40,28 @@ class EditComment extends Component {
 
         return (
             <div className={styles.createcomment}>
-                <h2 className={styles.componentheading}>Edit comment</h2>
-				<form onSubmit={(e) => this.submitData(e, comment.id)} className={styles.createcommentform}>
-					<label className={styles.commentlabel} htmlFor="body">Body</label>
-					<textarea
-						cols="50"
-						id="body"
-                        name="body"
-                        defaultValue={ comment.body }
-						placeholder="Please enter the post body"
-						rows="4"
-						required
-                        key={ comment.body }
-						>
-					</textarea>
-					<button className={styles.submitcomment}>Submit</button>
-				</form>
+                {
+                    comment && (
+                        <div>
+                            <h2 className={styles.componentheading}>Edit comment</h2>
+                            <form onSubmit={(e) => this.submitData(e, comment.id)} className={styles.createcommentform}>
+                                <label className={styles.commentlabel} htmlFor="body">Body</label>
+                                <textarea
+                                    cols="50"
+                                    id="body"
+                                    name="body"
+                                    defaultValue={ comment.body }
+                                    placeholder="Please enter the post body"
+                                    rows="4"
+                                    required
+                                    key={ comment.body }
+                                    >
+                                </textarea>
+                                <button className={styles.submitcomment}>Submit</button>
+                            </form>
+                        </div>
+                    )
+                }
             </div>
         )
     }

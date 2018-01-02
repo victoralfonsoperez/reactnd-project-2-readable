@@ -57,7 +57,7 @@ class App extends Component {
         <Route path="/" component={Posts}/>
         <Switch>
           <Route exact path="/create" component={CreatePost}/>
-          <Route exact path="/edit/" component={EditPost}/>
+          <Route path="/edit/" component={EditPost}/>
           <Route
             exact
             path={`/${currentcategory}/:id`}
