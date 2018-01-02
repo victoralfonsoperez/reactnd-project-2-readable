@@ -8,7 +8,7 @@ class Header extends Component {
 
     componentWillReceiveProps(nextProps) {
         //sets the categories state when the component receives props
-        this.setState({ categories: nextProps.categories })
+        this.setState({ categories: nextProps.categories.categories })
     }
 
     render () {
@@ -34,9 +34,9 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = ({posts, comments}) => (
+const mapStateToProps = ({posts, comments, categories}) => (
     {
-      categories: posts.categories
+      categories
     }
 )
 

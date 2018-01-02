@@ -77,7 +77,7 @@ class PostDetail extends Component {
     }
 
     componentDidMount() {
-        let postid = this.props.location.pathname.replace(/^\/+/g, '')
+        const postid = this.props.location.pathname.match(/\w+$/)[0]
         api.getSinglePost(postid)
             .then(currentpost => this.setState({ post: currentpost }))
         api.getPostComments(postid)
@@ -161,12 +161,10 @@ class PostDetail extends Component {
                         </div>
                     </div>
                 }
-                {
-                    <Link
-                        className={styles.createpostlink}
-                        to={`/newcomment/${post.id}`}>Create comment
-                    </Link>
-                }
+                <Link
+                    className={styles.createpostlink}
+                    to={`/newcomment/${post.id}`}>Create comment
+                </Link>
                 {
                     comments && comments.length !== 0 && (
                         <h2 className={styles.commentheading}>COMMENTS</h2>
@@ -188,10 +186,11 @@ class PostDetail extends Component {
     }
 }
 
-const mapStateToProps = ({posts, comments}) => (
+const mapStateToProps = ({posts, comments, categories }) => (
     {
       currentpost: posts.currentpost,
-      comments
+      comments,
+      categories
     }
 )
 

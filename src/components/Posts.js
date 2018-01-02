@@ -66,10 +66,10 @@ class Posts extends Component {
     }
 }
 
-const mapStateToProps = ({posts, comments}) => (
+const mapStateToProps = ({posts, comments, categories }) => (
     {
       posts: posts.posts,
-      categories: posts.categories,
+      categories: categories.categories,
       currentpost: posts.currentpost
     }
 )

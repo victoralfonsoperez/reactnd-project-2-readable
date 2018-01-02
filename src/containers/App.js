@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styles from './App.scss'
 import * as api from '../utils/api'
 import { Route, withRouter, Switch } from 'react-router-dom'
-import { postDeleter, getAllPosts, getAllCategories, currentPost } from '../actions'
+import { postDeleter, getAllPosts, getAllCategories, currentPost, setCurrentCategory } from '../actions'
 import Header from '../components/Header'
 import Posts from '../components/Posts'
 import CreatePost from '../components/CreatePost'
@@ -23,9 +23,11 @@ class App extends Component {
   componentDidMount () {
     //gets the current post id from the url, then request the info to the API
     //when the pages gets refreshed and avoids returning a null value
-    let currentpathname = (this.props.location.pathname.match(/\w+$/) && this.props.location.pathname.match(/\w+$/)[0]) || ''
+    const currentpathname = (this.props.location.pathname.match(/\w+$/) && this.props.location.pathname.match(/\w+$/)[0]) || ''
     //avoids a bad request to the api
-    let postid = currentpathname !== 'create' ? currentpathname : ''
+    const postid = currentpathname !== 'create' ? currentpathname : ''
+    // eslint-disable-next-line
+    const currentcat = this.props.location.pathname.replace(/^\/([^\/]*).*$/, '$1')
     //fetching all the available posts from the api, then updating the store
     api.getPosts()
       .then(posts => this.setState({ posts }))
@@ -34,6 +36,7 @@ class App extends Component {
     api.getCategories()
       .then(categories => this.setState({ categories }))
       .then(data => this.props.getCategories(this.state.categories))
+      .then(this.props.setCurrentCat(currentcat))
     //fetch the currentpost data, given in the url, when the page gets refreshed
     api.getSinglePost(postid)
       .then(data => this.props.setCurrentPost(data))
@@ -46,31 +49,32 @@ class App extends Component {
 
   render() {
 
+    const { currentcategory } = this.props.categories
+
     return (
       <div className={styles.app}>
         <Route component={Header}/>
         <Route path="/" component={Posts}/>
-        <Route exact path="/create" component={CreatePost}/>
-        <Route path="/edit" component={EditPost}/>
         <Switch>
-          {
-            this.props.posts.currentpost &&
-            <Route
-              path={this.props.posts.currentpost && `/${this.props.posts.currentpost.id}`}
-              component={PostDetail}/>
-          }
-          <CreateComment path="/newcomment"></CreateComment>
-          <EditComment path="/editcomment/"></EditComment>
+          <Route exact path="/create" component={CreatePost}/>
+          <Route exact path="/edit/" component={EditPost}/>
+          <Route
+            exact
+            path={`/${currentcategory}/:id`}
+            component={PostDetail}/>
         </Switch>
+        <Route path="/newcomment/" component={CreateComment}></Route>
+        <Route path="/editcomment/" component={EditComment}></Route>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({posts, comments}) => (
+const mapStateToProps = ({posts, comments, categories}) => (
   {
     posts,
-    comments
+    comments,
+    categories
   }
 )
 
@@ -79,7 +83,8 @@ const mapDispatchToProps = dispatch => (
     getPosts: data => dispatch(getAllPosts(data)),
     getCategories: data => dispatch(getAllCategories(data)),
     deleteOldPost: data => dispatch(postDeleter(data)),
-    setCurrentPost: data => dispatch(currentPost(data))
+    setCurrentPost: data => dispatch(currentPost(data)),
+    setCurrentCat: data => dispatch(setCurrentCategory(data))
   }
 )
 

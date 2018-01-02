@@ -20,7 +20,7 @@ class CreatePost extends Component {
 
     componentWillReceiveProps(nextProps) {
         //sets the categories state when the component receives props
-        this.setState({ categories: nextProps.categories })
+        this.setState({ categories: nextProps.categories.categories })
     }
 
 	submitData = e => {
@@ -42,7 +42,7 @@ class CreatePost extends Component {
 
     render() {
 
-		const { categories } = this.props
+		const { categories } = this.props.categories
 
         return (
             <div className={styles.createpost}>
@@ -93,9 +93,9 @@ class CreatePost extends Component {
     }
 }
 
-const mapStateToProps = ({posts, comments}) => (
+const mapStateToProps = ({posts, comments, categories}) => (
     {
-      categories: posts.categories
+      categories
     }
 )
 

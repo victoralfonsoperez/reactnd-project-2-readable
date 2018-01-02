@@ -3,7 +3,7 @@ import * as FontAwesome from 'react-icons/lib/fa'
 import styles from './Post.scss'
 import { connect } from 'react-redux'
 import * as api from '../utils/api'
-import { postDeleter, currentPost, postVoter } from '../actions'
+import { postDeleter, currentPost, postVoter, setCurrentCategory } from '../actions'
 import { NavLink, Link } from 'react-router-dom'
 import randomPic from '../utils/randompic'
 
@@ -18,6 +18,7 @@ class Post extends Component {
 
   setActualPost = post => {
     this.props.setCurrentPost(post)
+    this.props.setCurrentCat(post.category)
   }
 
   votePost = (id, vote) => {
@@ -35,7 +36,7 @@ class Post extends Component {
         <div className={styles.posthead}>
           <NavLink
             className={styles.posttitle}
-            to={ `/${post.id}` }
+            to={`/${post.category}/${post.id}`}
             onClick={() => {this.setActualPost(post)}}
           >{ post.title }
           </NavLink>
@@ -63,6 +64,10 @@ class Post extends Component {
           <div className={styles.postdate}><FontAwesome.FaCalendarO />
             <span className={styles.postdatevalue}>{ new Date(post.timestamp).toLocaleString() }</span>
           </div>
+        </div>
+
+        <div className={styles.postcommentcount}><FontAwesome.FaCommentsO />
+          <span>{ post.commentCount }</span>
         </div>
 
         <div className={styles.postactions}>
@@ -98,10 +103,11 @@ class Post extends Component {
   }
 }
 
-const mapStateToProps = ({posts, comments}) => (
+const mapStateToProps = ({posts, comments, categories}) => (
   {
     posts,
-    comments
+    comments,
+    categories
   }
 )
 
@@ -109,7 +115,8 @@ const mapDispatchToProps = dispatch => (
   {
     deleteOldPost: data => dispatch(postDeleter(data)),
     setCurrentPost: data => dispatch(currentPost(data)),
-    votePost: data => dispatch(postVoter(data))
+    votePost: data => dispatch(postVoter(data)),
+    setCurrentCat: data => dispatch(setCurrentCategory(data))
   }
 )
 
